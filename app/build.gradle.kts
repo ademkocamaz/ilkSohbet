@@ -78,7 +78,7 @@ dependencies {
     implementation("androidx.compose.foundation:foundation:1.6.7")
 
     //OneSignal
-    implementation("com.onesignal:OneSignal:[5.0.0, 5.99.99]")
+    implementation("com.onesignal:OneSignal:[4.0.0, 4.99.99]")
 
     //Icons
     implementation("androidx.compose.material:material-icons-extended:1.6.7")
