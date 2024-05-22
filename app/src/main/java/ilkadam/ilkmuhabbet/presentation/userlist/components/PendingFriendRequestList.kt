@@ -36,12 +36,12 @@ fun PendingFriendRequestList(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                modifier = androidx.compose.ui.Modifier.padding(MaterialTheme.spacing.small),
+                modifier = Modifier.padding(MaterialTheme.spacing.small),
                 text = item.requesterEmail,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
             )
-            Row() {
+            Row {
                 TextButton(
                     onClick = { onCancelClick() }
                 ) {

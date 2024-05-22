@@ -54,8 +54,7 @@ fun BottomNavigation(
         enter = slideInVertically(initialOffsetY = { it }),
         exit = slideOutVertically(targetOffsetY = { it }),
     ) {
-        BottomAppBar(
-        ) {
+        BottomAppBar {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.destination?.route
 //            IconButton(onClick = {

@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Person
@@ -58,7 +58,7 @@ fun ChatAppBar(
 ) {
     val context = LocalContext.current
     var expanded by remember { mutableStateOf(false) }
-    TopAppBar(
+    SmallTopAppBar(
         modifier = Modifier.statusBarsPadding(),
 //        modifier = Modifier.align(Alignment.CenterStart),
         title = {
@@ -114,7 +114,7 @@ fun ChatAppBar(
         navigationIcon = {
             IconButton(onClick = { onBackArrowClick?.invoke() }) {
                 Icon(
-                    imageVector = Icons.Filled.ArrowBack,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Localized description"
                 )
             }

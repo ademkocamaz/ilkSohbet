@@ -25,7 +25,7 @@ fun ProfilePictureDialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties()
     ) {
-        Card() {
+        Card {
             Image(
                 painter = rememberAsyncImagePainter(profilePictureUrl),
                 contentDescription = null,

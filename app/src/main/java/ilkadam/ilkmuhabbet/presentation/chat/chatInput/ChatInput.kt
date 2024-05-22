@@ -9,11 +9,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.AttachFile
 import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Mood
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -100,7 +100,7 @@ internal fun ChatInput(
                 }
             },
             trailingIcon = {
-                Row() {
+                Row {
                     IconButton(onClick = {
                         Toast.makeText(
                             context,
@@ -140,7 +140,7 @@ internal fun ChatInput(
             }
         ) {
             Icon(
-                imageVector = if (textEmpty) Icons.Filled.Mic else Icons.Filled.Send,
+                imageVector = if (textEmpty) Icons.Filled.Mic else Icons.AutoMirrored.Filled.Send,
                 contentDescription = null
             )
         }

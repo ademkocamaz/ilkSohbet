@@ -1,7 +1,7 @@
 package ilkadam.ilkmuhabbet.presentation.bottomnavigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Chat
+import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -40,7 +40,7 @@ sealed class BottomNavItem(
 
     object UserList : BottomNavItem(
         "Chat",
-        Icons.Filled.Chat,
+        Icons.AutoMirrored.Filled.Chat,
         "userlist",
         ""
     ) {
@@ -49,7 +49,7 @@ sealed class BottomNavItem(
 
     object Chat : BottomNavItem(
         "Chat",
-        Icons.Filled.Chat,
+        Icons.AutoMirrored.Filled.Chat,
         "chat",
         "/{chatroomUUID}" + "/{opponentUUID}" + "/{registerUUID}" + "/{oneSignalUserId}"
     ) {

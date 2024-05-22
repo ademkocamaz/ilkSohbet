@@ -132,7 +132,7 @@ fun ProfileScreen(
                             }
                         }
                     }
-                    Spacer(modifier = androidx.compose.ui.Modifier.height(MaterialTheme.spacing.medium))
+                    Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
                     Text(text = email, style = MaterialTheme.typography.titleMedium)
                     ProfileTextField(
                         entry = name,
