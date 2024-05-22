@@ -84,8 +84,16 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.6.7")
 
     //Dagger-Hilt
-    implementation("com.google.dagger:hilt-android:2.44")
+    implementation("com.google.dagger:hilt-android:2.49")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    kapt("androidx.hilt:hilt-compiler:1.2.0")
+
+    //Accompanist
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.34.0")
+    implementation("com.google.accompanist:accompanist-pager:0.34.0")
+    implementation("com.google.accompanist:accompanist-navigation-animation:0.34.0")
 
     //Gson
     implementation("com.google.code.gson:gson:2.11.0")
