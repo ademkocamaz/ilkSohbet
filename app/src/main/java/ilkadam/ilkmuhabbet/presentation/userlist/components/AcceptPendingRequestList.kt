@@ -26,10 +26,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import ilkadam.ilkmuhabbet.R
 import ilkadam.ilkmuhabbet.domain.model.FriendListRow
 import ilkadam.ilkmuhabbet.domain.model.MessageStatus
 import ilkadam.ilkmuhabbet.ui.theme.spacing
@@ -81,10 +83,12 @@ fun AcceptPendingRequestList(
                 }
             }
             Box(modifier = Modifier.fillMaxSize()) {
-                val sdf = remember { SimpleDateFormat("hh:mm", Locale.ROOT) }
+                val sdf = remember { SimpleDateFormat("HH:mm", Locale.ROOT) }
                 if (item.lastMessage.status == MessageStatus.RECEIVED.toString() && item.lastMessage.profileUUID == item.userUUID) {
                     Row(
-                        modifier = Modifier.fillMaxSize().padding(start = MaterialTheme.spacing.small),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(start = MaterialTheme.spacing.small),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
@@ -96,7 +100,7 @@ fun AcceptPendingRequestList(
                             )
                             Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
                             Text(
-                                text = "Last Message: " + item.lastMessage.message,
+                                text = stringResource(id = R.string.last_message) + item.lastMessage.message,
                                 style = MaterialTheme.typography.titleSmall,
                             )
                         }
@@ -128,7 +132,9 @@ fun AcceptPendingRequestList(
 
                         if (item.lastMessage.profileUUID != item.userUUID) {
                             Row(
-                                modifier = Modifier.fillMaxSize().padding(start = MaterialTheme.spacing.small),
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(start = MaterialTheme.spacing.small),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
@@ -140,7 +146,7 @@ fun AcceptPendingRequestList(
                                     )
                                     Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
                                     Text(
-                                        text = "Me: " + item.lastMessage.message,
+                                        text = stringResource(R.string.me) + item.lastMessage.message,
                                         style = MaterialTheme.typography.titleSmall,
 
                                         )
@@ -155,7 +161,9 @@ fun AcceptPendingRequestList(
 
                         } else {
                             Row(
-                                modifier = Modifier.fillMaxSize().padding(start = MaterialTheme.spacing.small),
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(start = MaterialTheme.spacing.small),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
@@ -167,7 +175,7 @@ fun AcceptPendingRequestList(
                                     )
                                     Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
                                     Text(
-                                        text = "Last Message: " + item.lastMessage.message,
+                                        text = stringResource(R.string.last_message) + item.lastMessage.message,
                                         style = MaterialTheme.typography.titleSmall,
                                     )
                                 }
@@ -183,7 +191,8 @@ fun AcceptPendingRequestList(
                     } else {
                         Box(
                             modifier = Modifier
-                                .fillMaxHeight().padding(start = MaterialTheme.spacing.small)
+                                .fillMaxHeight()
+                                .padding(start = MaterialTheme.spacing.small)
                         ) {
                             Text(
                                 text = item.userEmail,

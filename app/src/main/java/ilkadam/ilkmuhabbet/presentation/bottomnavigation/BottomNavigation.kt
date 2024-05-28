@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -21,10 +22,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import ilkadam.ilkmuhabbet.R
 import ilkadam.ilkmuhabbet.core.SnackbarController
 import ilkadam.ilkmuhabbet.presentation.bottomnavigation.components.CustomNavItem
 import ilkadam.ilkmuhabbet.presentation.userlist.UserListViewModel
@@ -44,9 +48,14 @@ fun BottomNavigation(
     val userListViewModel: UserListViewModel = hiltViewModel()
 
     val toastMessage = userListViewModel.toastMessage.value
-    LaunchedEffect(key1 = toastMessage) {
+    val context = LocalContext.current
+    LaunchedEffect(toastMessage, context) {
         if (toastMessage != "") {
-            SnackbarController(this).showSnackbar(snackbarHostState, toastMessage, "Close")
+            SnackbarController(this).showSnackbar(
+                snackbarHostState, toastMessage, context.getString(
+                    R.string.close
+                )
+            )
         }
     }
     AnimatedVisibility(
@@ -54,7 +63,7 @@ fun BottomNavigation(
         enter = slideInVertically(initialOffsetY = { it }),
         exit = slideOutVertically(targetOffsetY = { it }),
     ) {
-        BottomAppBar {
+        BottomAppBar(modifier = Modifier.height(50.dp)) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.destination?.route
 //            IconButton(onClick = {
@@ -114,13 +123,13 @@ fun BottomNavigation(
                         }
                     },
                     iconSelected = {
-                        if (currentRoute == item.screen_route){
+                        if (currentRoute == item.screen_route) {
                             Icon(
                                 imageVector = item.icon,
                                 contentDescription = item.title,
                                 tint = MaterialTheme.colorScheme.primary
                             )
-                        }else{
+                        } else {
                             Icon(
                                 imageVector = item.icon,
                                 contentDescription = item.title,
@@ -129,7 +138,7 @@ fun BottomNavigation(
                     }
                 )
             }
-            Spacer(Modifier.weight(1f, true))
+            /*Spacer(Modifier.weight(1f, true))
             if (currentRoute == BottomNavItem.UserList.screen_route) {
                 var showAlertDialog by remember {
                     mutableStateOf(false)
@@ -143,7 +152,7 @@ fun BottomNavigation(
                         })
                 }
                 ExtendedFloatingActionButton(
-                    modifier = Modifier.padding(end = MaterialTheme.spacing.small),
+                    modifier = Modifier.padding(all = MaterialTheme.spacing.small),
                     onClick = {
                         showAlertDialog = !showAlertDialog
                     },
@@ -151,10 +160,10 @@ fun BottomNavigation(
                         defaultElevation = 0.dp
                     )
                 ) {
-                    Text(text = "Add New Message")
+                    Text(text = stringResource(R.string.add_new_message))
                     Icon(imageVector = Icons.Filled.Add, contentDescription = null)
                 }
-            }
+            }*/
 //            items.forEach { item ->
 //                NavigationBarItem(
 //                    icon = {

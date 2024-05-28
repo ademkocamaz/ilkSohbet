@@ -1,5 +1,6 @@
 package ilkadam.ilkmuhabbet.presentation.profile
 
+import android.app.Application
 import android.content.ContentValues
 import android.net.Uri
 import android.util.Log
@@ -7,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ilkadam.ilkmuhabbet.R
 import ilkadam.ilkmuhabbet.domain.model.User
 import ilkadam.ilkmuhabbet.domain.model.UserStatus
 import ilkadam.ilkmuhabbet.domain.usecase.profileScreen.ProfileScreenUseCases
@@ -17,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val useCases: ProfileScreenUseCases
+    private val useCases: ProfileScreenUseCases,
+    private val application: Application
 ) : ViewModel() {
     var toastMessage = mutableStateOf("")
         private set
@@ -37,7 +40,7 @@ class ProfileViewModel @Inject constructor(
 
     //PUBLIC FUNCTIONS
 
-    fun setUserStatusToFirebaseAndSignOut(userStatus: UserStatus){
+    /*fun setUserStatusToFirebaseAndSignOut(userStatus: UserStatus){
         viewModelScope.launch {
             useCases.setUserStatusToFirebase(userStatus).collect{ response ->
                 when(response){
@@ -54,7 +57,7 @@ class ProfileViewModel @Inject constructor(
                 }
             }
         }
-    }
+    }*/
 
     fun uploadPictureToFirebase(uri: Uri) {
         viewModelScope.launch {
@@ -87,15 +90,15 @@ class ProfileViewModel @Inject constructor(
                     is Response.Success -> {
                         isLoading.value = false
                         if(response.data){
-                            toastMessage.value = "Profile Updated"
+                            toastMessage.value = application.getString(R.string.profile_updated)
                         }else{
-                            toastMessage.value = "Profile Saved"
+                            toastMessage.value = application.getString(R.string.profile_saved)
                         }
                         //delay(2000) //Bu ne içindi hatırlayamadım.
                         loadProfileFromFirebase()
                     }
                     is Response.Error -> {
-                        toastMessage.value = "Update Failed"
+                        toastMessage.value = application.getString(R.string.update_failed)
                     }
                 }
             }
@@ -105,7 +108,7 @@ class ProfileViewModel @Inject constructor(
 
     //PRIVATE FUNCTIONS
 
-    private fun signOut() {
+    /*private fun signOut() {
         viewModelScope.launch {
             useCases.signOut().collect { response ->
                 when(response) {
@@ -114,14 +117,14 @@ class ProfileViewModel @Inject constructor(
                     }
                     is Response.Success -> {
                         isUserSignOutState.value = response.data
-                        toastMessage.value = "Sign Out"
+                        toastMessage.value = application.getString(R.string.sign_out)
                     }
                     is Response.Error -> Log.d(ContentValues.TAG, response.message)
                 }
 
             }
         }
-    }
+    }*/
 
     private fun loadProfileFromFirebase() {
         viewModelScope.launch {

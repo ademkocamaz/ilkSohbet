@@ -6,6 +6,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
@@ -23,7 +24,6 @@ import ilkadam.ilkmuhabbet.domain.repository.UserListScreenRepository
 import ilkadam.ilkmuhabbet.domain.usecase.authScreen.AuthUseCases
 import ilkadam.ilkmuhabbet.domain.usecase.authScreen.IsUserAuthenticatedInFirebase
 import ilkadam.ilkmuhabbet.domain.usecase.authScreen.SignIn
-import ilkadam.ilkmuhabbet.domain.usecase.authScreen.SignUp
 import ilkadam.ilkmuhabbet.domain.usecase.chatScreen.BlockFriendToFirebase
 import ilkadam.ilkmuhabbet.domain.usecase.chatScreen.ChatScreenUseCases
 import ilkadam.ilkmuhabbet.domain.usecase.chatScreen.InsertMessageToFirebase
@@ -33,7 +33,6 @@ import ilkadam.ilkmuhabbet.domain.usecase.profileScreen.CreateOrUpdateProfileToF
 import ilkadam.ilkmuhabbet.domain.usecase.profileScreen.LoadProfileFromFirebase
 import ilkadam.ilkmuhabbet.domain.usecase.profileScreen.ProfileScreenUseCases
 import ilkadam.ilkmuhabbet.domain.usecase.profileScreen.SetUserStatusToFirebase
-import ilkadam.ilkmuhabbet.domain.usecase.profileScreen.SignOut
 import ilkadam.ilkmuhabbet.domain.usecase.profileScreen.UploadPictureToFirebase
 import ilkadam.ilkmuhabbet.domain.usecase.userListScreen.AcceptPendingFriendRequestToFirebase
 import ilkadam.ilkmuhabbet.domain.usecase.userListScreen.CheckChatRoomExistedFromFirebase
@@ -96,7 +95,7 @@ object AppModule {
     fun provideAuthScreenUseCase(authRepository: AuthScreenRepository) = AuthUseCases(
         isUserAuthenticated = IsUserAuthenticatedInFirebase(authRepository),
         signIn = SignIn(authRepository),
-        signUp = SignUp(authRepository)
+        //signUp = SignUp(authRepository)
     )
 
     @Provides
@@ -115,7 +114,7 @@ object AppModule {
             ),
             loadProfileFromFirebase = LoadProfileFromFirebase(profileScreenRepository),
             setUserStatusToFirebase = SetUserStatusToFirebase(profileScreenRepository),
-            signOut = SignOut(profileScreenRepository),
+            //signOut = SignOut(profileScreenRepository),
             uploadPictureToFirebase = UploadPictureToFirebase(profileScreenRepository)
         )
 

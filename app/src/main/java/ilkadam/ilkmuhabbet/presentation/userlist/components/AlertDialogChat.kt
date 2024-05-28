@@ -13,14 +13,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import ilkadam.ilkmuhabbet.R
 
 @Composable
 fun AlertDialogChat(
     onDismiss: () -> Unit,
     onConfirm: (String) -> Unit
 ) {
-    val dialogText = "Add user via email".trimIndent()
+    val dialogText = stringResource(R.string.add_user_via_email).trimIndent()
     var emailInput by remember {
         mutableStateOf("")
     }
@@ -31,7 +33,7 @@ fun AlertDialogChat(
         title = {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Add User",
+                text = stringResource(R.string.add_user),
                 textAlign = TextAlign.Center
             )
         },
@@ -39,7 +41,7 @@ fun AlertDialogChat(
         onDismissRequest = onDismiss,
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(text = "Cancel")
+                Text(text = stringResource(R.string.cancel))
             }
         },
         confirmButton = {
@@ -48,14 +50,14 @@ fun AlertDialogChat(
                     onConfirm(emailInput)
                 }
             ) {
-                Text(text = "OK")
+                Text(text = stringResource(R.string.ok))
             }
         },
 
         text = {
             AlertDialogCustomOutlinedTextField(
                 entry = emailInput,
-                hint = "email",
+                hint = stringResource(id = R.string.email),
                 onChange = { emailInput = it })
         }
     )

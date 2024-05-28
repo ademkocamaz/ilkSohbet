@@ -30,7 +30,7 @@ class ProfileScreenRepositoryImpl @Inject constructor(
     private val database: FirebaseDatabase,
     private val storage: FirebaseStorage
 ) : ProfileScreenRepository {
-    override suspend fun signOut(): Flow<Response<Boolean>> = callbackFlow {
+    /*override suspend fun signOut(): Flow<Response<Boolean>> = callbackFlow {
         try {
             this@callbackFlow.trySendBlocking(Response.Loading)
             auth.signOut().apply {
@@ -43,7 +43,7 @@ class ProfileScreenRepositoryImpl @Inject constructor(
             channel.close()
             cancel()
         }
-    }
+    }*/
 
     override suspend fun uploadPictureToFirebase(url: Uri): Flow<Response<String>> = flow {
         try {
@@ -70,7 +70,7 @@ class ProfileScreenRepositoryImpl @Inject constructor(
             try {
                 emit(Response.Loading)
                 val userUUID = auth.currentUser?.uid.toString()
-                val userEmail = auth.currentUser?.email.toString()
+                //val userEmail = auth.currentUser?.email.toString()
                 val oneSignalUserId = OneSignal.getDeviceState()?.userId.toString()
 
                 val databaseReference =
@@ -79,13 +79,13 @@ class ProfileScreenRepositoryImpl @Inject constructor(
                 val childUpdates = mutableMapOf<String, Any>()
 
                 childUpdates["/profileUUID/"] = userUUID
-                childUpdates["/userEmail/"] = userEmail
+                //childUpdates["/userEmail/"] = userEmail
                 childUpdates["/oneSignalUserId/"] = oneSignalUserId
 
                 if (user.userName != "") childUpdates["/userName/"] = user.userName
                 if (user.userProfilePictureUrl != "") childUpdates["/userProfilePictureUrl/"] =
                     user.userProfilePictureUrl
-                if (user.userSurName != "") childUpdates["/userSurName/"] = user.userSurName
+                //if (user.userSurName != "") childUpdates["/userSurName/"] = user.userSurName
                 if (user.userBio != "") childUpdates["/userBio/"] = user.userBio
                 if (user.userPhoneNumber != "") childUpdates["/userPhoneNumber/"] =
                     user.userPhoneNumber

@@ -6,6 +6,7 @@ import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -33,7 +34,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
+import ilkadam.ilkmuhabbet.R
 import ilkadam.ilkmuhabbet.ui.theme.spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,6 +58,7 @@ internal fun ChatInput(
     val imePaddingValues = PaddingValues()
     Row(
         modifier = modifier
+            .imePadding()
             .fillMaxWidth()
             .padding(vertical = MaterialTheme.spacing.extraSmall),
         verticalAlignment = Alignment.Bottom
@@ -86,9 +90,9 @@ internal fun ChatInput(
                 disabledIndicatorColor = Color.Transparent
             ),
             placeholder = {
-                Text(text = "Message")
+                Text(text = stringResource(R.string.message))
             },
-            leadingIcon = {
+            /*leadingIcon = {
                 IconButton(onClick = {
                     Toast.makeText(
                         context,
@@ -121,10 +125,26 @@ internal fun ChatInput(
                     }
                 }
 
-            }
+            }*/
 
         )
+
         FloatingActionButton(
+            shape = CircleShape,
+            onClick = {
+                if (!textEmpty) {
+                    onMessageChange(input.text)
+                    input = TextFieldValue("")
+                }
+            }
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.Send,
+                contentDescription = null
+            )
+        }
+
+        /*FloatingActionButton(
             shape = CircleShape,
             onClick = {
                 if (!textEmpty) {
@@ -143,6 +163,6 @@ internal fun ChatInput(
                 imageVector = if (textEmpty) Icons.Filled.Mic else Icons.AutoMirrored.Filled.Send,
                 contentDescription = null
             )
-        }
+        }*/
     }
 }

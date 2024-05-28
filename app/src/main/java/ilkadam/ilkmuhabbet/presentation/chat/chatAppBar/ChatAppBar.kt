@@ -38,10 +38,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import ilkadam.ilkmuhabbet.R
 import ilkadam.ilkmuhabbet.ui.theme.spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -150,7 +152,7 @@ fun ChatAppBar(
                     onDismissRequest = { expanded = false }) {
                     DropdownMenuItem(
                         text = {
-                            Text(text = "Block User")
+                            Text(text = stringResource(R.string.block_user))
                         },
                         onClick = {
                             onMoreDropDownBlockUserClick?.invoke()

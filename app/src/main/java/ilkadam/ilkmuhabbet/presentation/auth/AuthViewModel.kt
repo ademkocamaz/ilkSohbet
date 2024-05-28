@@ -1,10 +1,12 @@
 package ilkadam.ilkmuhabbet.presentation.auth
 
+import android.app.Application
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ilkadam.ilkmuhabbet.R
 import ilkadam.ilkmuhabbet.domain.model.User
 import ilkadam.ilkmuhabbet.domain.model.UserStatus
 import ilkadam.ilkmuhabbet.domain.usecase.authScreen.AuthUseCases
@@ -16,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authUseCases: AuthUseCases,
-    private val profileScreenUseCases: ProfileScreenUseCases
+    private val profileScreenUseCases: ProfileScreenUseCases,
+    private val application: Application
 ) : ViewModel() {
     var isUserAuthenticatedState = mutableStateOf(false)
         private set
@@ -34,7 +37,28 @@ class AuthViewModel @Inject constructor(
         isUserAuthenticated()
     }
 
-    fun signIn(email: String, password: String) {
+    fun signIn() {
+        viewModelScope.launch {
+            authUseCases.signIn().collect { response ->
+                when (response) {
+                    is Response.Loading -> {
+                        toastMessage.value = ""
+                    }
+                    is Response.Success -> {
+                        setUserStatusToFirebase(UserStatus.ONLINE)
+                        isUserSignInState.value = response.data
+                        toastMessage.value = application.getString(R.string.login_successful)
+
+                    }
+                    is Response.Error -> {
+                        toastMessage.value = application.getString(R.string.login_failed)
+                    }
+                }
+            }
+        }
+    }
+
+    /*fun signIn(email: String, password: String) {
         viewModelScope.launch {
             authUseCases.signIn(email, password).collect { response ->
                 when (response) {
@@ -44,17 +68,18 @@ class AuthViewModel @Inject constructor(
                     is Response.Success -> {
                         setUserStatusToFirebase(UserStatus.ONLINE)
                         isUserSignInState.value = response.data
-                        toastMessage.value = "Login Successful"
+                        toastMessage.value = application.getString(R.string.login_successful)
+
                     }
                     is Response.Error -> {
-                        toastMessage.value = "Login Failed"
+                        toastMessage.value = application.getString(R.string.login_failed)
                     }
                 }
             }
         }
-    }
+    }*/
 
-    fun signUp(email: String, password: String) {
+    /*fun signUp(email: String, password: String) {
         viewModelScope.launch {
             authUseCases.signUp(email, password).collect { response ->
                 when (response) {
@@ -63,12 +88,12 @@ class AuthViewModel @Inject constructor(
                     }
                     is Response.Success -> {
                         isUserSignUpState.value = response.data
-                        toastMessage.value = "Sign Up Successful"
+                        toastMessage.value = application.getString(R.string.sign_up_successful)
                         firstTimeCreateProfileToFirebase()
                     }
                     is Response.Error -> {
                         try {
-                            toastMessage.value = "Sign Up Failed"
+                            toastMessage.value = application.getString(R.string.sign_up_failed)
                         }catch (e: Exception){
                             Log.e("TAG", "signUp: ", Throwable(e))
                         }
@@ -77,7 +102,7 @@ class AuthViewModel @Inject constructor(
                 }
             }
         }
-    }
+    }*/
 
     private fun isUserAuthenticated() {
         viewModelScope.launch {
@@ -117,13 +142,13 @@ class AuthViewModel @Inject constructor(
                     }
                     is Response.Success -> {
                         if (response.data) {
-                            toastMessage.value = "Profile Updated"
+                            toastMessage.value = application.getString(R.string.profile_updated)
                         } else {
-                            toastMessage.value = "Profile Saved"
+                            toastMessage.value = application.getString(R.string.profile_saved)
                         }
                     }
                     is Response.Error -> {
-                        toastMessage.value = "Update Failed"
+                        toastMessage.value = application.getString(R.string.update_failed)
                     }
                 }
             }

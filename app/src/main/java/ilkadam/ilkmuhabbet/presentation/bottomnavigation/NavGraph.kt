@@ -1,6 +1,5 @@
 package ilkadam.ilkmuhabbet.presentation.bottomnavigation
 
-import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearEasing
@@ -19,7 +18,7 @@ import ilkadam.ilkmuhabbet.presentation.auth.signIn.SignInScreen
 import ilkadam.ilkmuhabbet.presentation.auth.signUp.SignUpScreen
 import ilkadam.ilkmuhabbet.presentation.chat.ChatScreen
 import ilkadam.ilkmuhabbet.presentation.profile.ProfileScreen
-import ilkadam.ilkmuhabbet.presentation.userlist.Userlist
+import ilkadam.ilkmuhabbet.presentation.userlist.UserlistScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -56,14 +55,14 @@ fun NavGraph(
             }
 
             SignInScreen(
-                emailFromSignUp = emailFromSignUp ?: "",
+                //emailFromSignUp = emailFromSignUp ?: "",
                 navController = navController,
                 snackbarHostState = snackbarHostState,
                 keyboardController = keyboardController
             )
         }
 
-        composable(
+        /*composable(
             BottomNavItem.SignUp.fullRoute,
             arguments = listOf(
                 navArgument("emailFromSignIn") {
@@ -101,7 +100,7 @@ fun NavGraph(
                 snackbarHostState = snackbarHostState,
                 keyboardController = keyboardController
             )
-        }
+        }*/
 
         composable(
             BottomNavItem.Profile.fullRoute,
@@ -160,7 +159,7 @@ fun NavGraph(
                     else -> null
                 }
             }) {
-            Userlist(
+            UserlistScreen(
                 navController = navController,
                 snackbarHostState = snackbarHostState,
                 keyboardController = keyboardController

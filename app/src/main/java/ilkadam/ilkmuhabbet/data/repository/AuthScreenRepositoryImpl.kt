@@ -31,7 +31,29 @@ class AuthScreenRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun signIn(email: String, password: String): Flow<Response<Boolean>> =
+    override suspend fun signIn(): Flow<Response<Boolean>> =
+        callbackFlow {
+            try {
+                this@callbackFlow.trySendBlocking(Response.Loading)
+                auth.signInAnonymously().apply {
+                    this.await()
+                    if (this.isSuccessful) {
+                        this@callbackFlow.trySendBlocking(Response.Success(true))
+                    } else {
+                        this@callbackFlow.trySendBlocking(Response.Success(false))
+                    }
+                }
+            } catch (e: Exception) {
+                this@callbackFlow.trySendBlocking(Response.Error(e.message ?: ERROR_MESSAGE))
+            }
+
+            awaitClose {
+                channel.close()
+                cancel()
+            }
+        }
+
+    /*override suspend fun signIn(email: String, password: String): Flow<Response<Boolean>> =
         callbackFlow {
             try {
                 this@callbackFlow.trySendBlocking(Response.Loading)
@@ -51,25 +73,25 @@ class AuthScreenRepositoryImpl @Inject constructor(
                 channel.close()
                 cancel()
             }
-        }
+        }*/
 
-    override suspend fun signUp(email: String, password: String): Flow<Response<Boolean>> =
-        callbackFlow {
-            try {
-                this@callbackFlow.trySendBlocking(Response.Loading)
-                auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
-                    if (it.user != null) {
-                        this@callbackFlow.trySendBlocking(Response.Success(true))
-                    }
-                }.addOnFailureListener {
-                    this@callbackFlow.trySendBlocking(Response.Error(it.message ?: ERROR_MESSAGE))
-                }
-            } catch (e: Exception) {
-                this@callbackFlow.trySendBlocking(Response.Error(e.message ?: ERROR_MESSAGE))
-            }
-            awaitClose {
-                channel.close()
-                cancel()
-            }
-        }
+//    override suspend fun signUp(email: String, password: String): Flow<Response<Boolean>> =
+//        callbackFlow {
+//            try {
+//                this@callbackFlow.trySendBlocking(Response.Loading)
+//                auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
+//                    if (it.user != null) {
+//                        this@callbackFlow.trySendBlocking(Response.Success(true))
+//                    }
+//                }.addOnFailureListener {
+//                    this@callbackFlow.trySendBlocking(Response.Error(it.message ?: ERROR_MESSAGE))
+//                }
+//            } catch (e: Exception) {
+//                this@callbackFlow.trySendBlocking(Response.Error(e.message ?: ERROR_MESSAGE))
+//            }
+//            awaitClose {
+//                channel.close()
+//                cancel()
+//            }
+//        }
 }

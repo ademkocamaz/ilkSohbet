@@ -12,7 +12,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import ilkadam.ilkmuhabbet.R
 import ilkadam.ilkmuhabbet.domain.model.FriendListRegister
 import ilkadam.ilkmuhabbet.ui.theme.spacing
 
@@ -45,10 +47,10 @@ fun PendingFriendRequestList(
                 TextButton(
                     onClick = { onCancelClick() }
                 ) {
-                    Text(text = "Decline", color = MaterialTheme.colorScheme.error)
+                    Text(text = stringResource(R.string.decline), color = MaterialTheme.colorScheme.error)
                 }
                 TextButton(onClick = { onAcceptClick() }) {
-                    Text(text = "Accept")
+                    Text(text = stringResource(R.string.accept))
                 }
             }
 

@@ -1,9 +1,11 @@
 package ilkadam.ilkmuhabbet.presentation.userlist
 
+import android.app.Application
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ilkadam.ilkmuhabbet.R
 import ilkadam.ilkmuhabbet.core.Constants
 import ilkadam.ilkmuhabbet.domain.model.FriendListRegister
 import ilkadam.ilkmuhabbet.domain.model.FriendListRow
@@ -16,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserListViewModel @Inject constructor(
-    private val userListScreenUseCases: UserListScreenUseCases
+    private val userListScreenUseCases: UserListScreenUseCases,
+    private val application: Application
 ) : ViewModel() {
     var pendingFriendRequestList = mutableStateOf<List<FriendListRegister>>(listOf())
         private set
@@ -49,6 +52,7 @@ class UserListViewModel @Inject constructor(
                         is Response.Loading -> {
                             toastMessage.value = ""
                         }
+
                         is Response.Success -> {
                             if (response.data != null) {
                                 checkChatRoomExistFromFirebaseAndCreateIfNot(
@@ -58,6 +62,7 @@ class UserListViewModel @Inject constructor(
                                 )
                             }
                         }
+
                         is Response.Error -> {}
                     }
 
@@ -73,9 +78,12 @@ class UserListViewModel @Inject constructor(
                         is Response.Loading -> {
                             toastMessage.value = ""
                         }
+
                         is Response.Success -> {
-                            toastMessage.value = "Friend Request Accepted"
+                            toastMessage.value =
+                                application.getString(R.string.friend_request_accepted)
                         }
+
                         is Response.Error -> {}
                     }
                 }
@@ -90,9 +98,12 @@ class UserListViewModel @Inject constructor(
                         is Response.Loading -> {
                             toastMessage.value = ""
                         }
+
                         is Response.Success -> {
-                            toastMessage.value = "Friend Request Canceled"
+                            toastMessage.value =
+                                application.getString(R.string.friend_request_canceled)
                         }
+
                         is Response.Error -> {}
                     }
                 }
@@ -110,6 +121,7 @@ class UserListViewModel @Inject constructor(
                                 acceptedFriendRequestList.value = response.data
                             }
                         }
+
                         is Response.Error -> {}
                     }
                 }
@@ -125,6 +137,7 @@ class UserListViewModel @Inject constructor(
                         is Response.Success -> {
                             pendingFriendRequestList.value = response.data
                         }
+
                         is Response.Error -> {}
                     }
                 }
@@ -157,6 +170,7 @@ class UserListViewModel @Inject constructor(
                                 )
                             }
                         }
+
                         is Response.Error -> {}
                     }
                 }
@@ -182,6 +196,7 @@ class UserListViewModel @Inject constructor(
                                 acceptorOneSignalUserId
                             )
                         }
+
                         is Response.Error -> {}
                     }
                 }
@@ -203,9 +218,10 @@ class UserListViewModel @Inject constructor(
                     is Response.Loading -> {
                         toastMessage.value = ""
                     }
+
                     is Response.Success -> {
                         if (response.data.equals(FriendListRegister())) {
-                            toastMessage.value = "Friend Request Sent."
+                            toastMessage.value = application.getString(R.string.friend_request_sent)
                             createFriendListRegisterToFirebase(
                                 chatRoomUUID,
                                 acceptorEmail,
@@ -213,13 +229,16 @@ class UserListViewModel @Inject constructor(
                                 acceptorOneSignalUserId
                             )
                         } else if (response.data.status.equals(FriendStatus.PENDING.toString())) {
-                            toastMessage.value = "Already Have Friend Request"
+                            toastMessage.value =
+                                application.getString(R.string.already_have_friend_request)
                         } else if (response.data.status.equals(FriendStatus.ACCEPTED.toString())) {
-                            toastMessage.value = "You Are Already Friend."
+                            toastMessage.value =
+                                application.getString(R.string.you_are_already_friend)
                         } else if (response.data.status.equals(FriendStatus.BLOCKED.toString())) {
                             openBlockedFriendToFirebase(response.data.registerUUID)
                         }
                     }
+
                     is Response.Error -> {}
                 }
             }
@@ -243,6 +262,7 @@ class UserListViewModel @Inject constructor(
                     is Response.Loading -> {}
                     is Response.Success -> {
                     }
+
                     is Response.Error -> {}
                 }
 
@@ -258,14 +278,18 @@ class UserListViewModel @Inject constructor(
                         is Response.Loading -> {
                             toastMessage.value = ""
                         }
+
                         is Response.Success -> {
                             if (response.data) {
-                                toastMessage.value = "User Block Opened And Accept As Friend"
+                                toastMessage.value =
+                                    application.getString(R.string.user_block_opened_and_accept_as_friend)
                             } else {
-                                toastMessage.value = "You Are Blocked by User"
+                                toastMessage.value =
+                                    application.getString(R.string.you_are_blocked_by_user)
                             }
 
                         }
+
                         is Response.Error -> {}
                     }
                 }

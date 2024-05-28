@@ -23,8 +23,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import ilkadam.ilkmuhabbet.R
@@ -40,7 +42,7 @@ import ilkadam.ilkmuhabbet.ui.theme.spacing
 
 @Composable
 fun SignInScreen(
-    emailFromSignUp: String,
+    //emailFromSignUp: String,
     authViewModel: AuthViewModel = hiltViewModel(),
     navController: NavController,
     snackbarHostState: SnackbarHostState,
@@ -48,19 +50,21 @@ fun SignInScreen(
 ) {
     //Set SnackBar
     val snackbar = authViewModel.toastMessage.value
-    LaunchedEffect(key1 = snackbar) {
+    val context = LocalContext.current
+    LaunchedEffect(snackbar, context) {
         if (snackbar != "") {
-            SnackbarController(this).showSnackbar(snackbarHostState, snackbar, "Close")
+            SnackbarController(this).showSnackbar(snackbarHostState, snackbar,
+                context.getString(R.string.close))
         }
     }
 
     //For test user information
-    var textEmail: String? by remember { mutableStateOf("") }//gimli@gmail.com
+    /*var textEmail: String? by remember { mutableStateOf("") }//gimli@gmail.com
     var textPassword: String? by remember { mutableStateOf("") }//123456
 
     LaunchedEffect(key1 = Unit) {
         textEmail = emailFromSignUp
-    }
+    }*/
 
     //Check User Authenticated
     val isUserAuthenticated = authViewModel.isUserAuthenticatedState.value
@@ -95,14 +99,15 @@ fun SignInScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                Image(
+                /*Image(
                     painter = painterResource(R.drawable.ic_launcher_foreground),
                     contentDescription = null
-                )
+                )*/
                 TextLightweight()
 
-                Box(modifier = Modifier.padding(top = MaterialTheme.spacing.extraLarge)) {
-                    LoginEmailCustomOutlinedTextField(textEmail!!, "Email", Icons.Default.Email) {
+                /*Box(modifier = Modifier.padding(top = MaterialTheme.spacing.extraLarge)) {
+                    LoginEmailCustomOutlinedTextField(textEmail!!,
+                        stringResource(R.string.email), Icons.Default.Email) {
                         textEmail = it
                     }
                 }
@@ -110,22 +115,23 @@ fun SignInScreen(
                 Box(modifier = Modifier.padding(top = MaterialTheme.spacing.medium)) {
                     LoginPasswordCustomOutlinedTextField(
                         textPassword!!,
-                        "Password",
+                        stringResource(R.string.password),
                         Icons.Default.Password
                     ) {
                         textPassword = it
                     }
-                }
+                }*/
 
                 ButtonSign(
                     onclick = {
-                        authViewModel.signIn(textEmail!!, textPassword!!)
+                        authViewModel.signIn()
+                        //authViewModel.signIn(textEmail!!, textPassword!!)
                     },
-                    signInOrSignUp = "Sign In"
+                    signInOrSignUp = stringResource(R.string.sign_up)
                 )
             }
         }
-        BottomRouteSign(
+        /*BottomRouteSign(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxSize()
@@ -142,8 +148,8 @@ fun SignInScreen(
                     navController.navigate(BottomNavItem.SignUp.screen_route + "?emailFromSignIn=$textEmail")
                 }
             },
-            signInOrSignUp = "Sign Up",
-            label = "Don't have an account?"
-        )
+            signInOrSignUp = stringResource(R.string.sign_up),
+            label = stringResource(R.string.don_t_have_an_account)
+        )*/
     }
 }

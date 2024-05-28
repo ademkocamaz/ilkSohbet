@@ -1,17 +1,23 @@
 package ilkadam.ilkmuhabbet.presentation.chat
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -26,6 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import ilkadam.ilkmuhabbet.R
 import ilkadam.ilkmuhabbet.core.SnackbarController
 import ilkadam.ilkmuhabbet.domain.model.MessageRegister
 import ilkadam.ilkmuhabbet.domain.model.MessageStatus
@@ -51,9 +59,14 @@ fun ChatScreen(
     keyboardController: SoftwareKeyboardController
 ) {
     val toastMessage = chatViewModel.toastMessage.value
-    LaunchedEffect(key1 = toastMessage) {
+    val context = LocalContext.current
+    LaunchedEffect(toastMessage, context) {
         if (toastMessage != "") {
-            SnackbarController(this).showSnackbar(snackbarHostState, toastMessage, "Close")
+            SnackbarController(this).showSnackbar(
+                snackbarHostState, toastMessage, context.getString(
+                    R.string.close
+                )
+            )
         }
     }
     chatViewModel.loadMessagesFromFirebase(chatRoomUUID, opponentUUID, registerUUID)
@@ -69,6 +82,7 @@ fun ChatScreen(
 
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ChatScreenContent(
@@ -126,47 +140,70 @@ fun ChatScreenContent(
             )
         }
     }
-    Column(
+    val context = LocalContext.current
+
+    Scaffold(
         modifier = Modifier
-            .fillMaxSize()
-            .focusable()
-            .wrapContentHeight()
-            .imePadding()
+            //.fillMaxSize()
             .pointerInput(Unit) {
                 detectTapGestures(onTap = { keyboardController.hide() })
-            }
-    ) {
-        val context = LocalContext.current
-
-        ChatAppBar(
-            title = "$opponentName $opponentSurname",
-            description = opponentStatus.lowercase(),
-            pictureUrl = opponentPictureUrl,
-            onUserNameClick = {
-                Toast.makeText(context, "User Profile Clicked", Toast.LENGTH_SHORT).show()
-            }, onBackArrowClick = {
-                navController.popBackStack()
-                navController.navigate(BottomNavItem.UserList.fullRoute)
-            }, onUserProfilePictureClick = {
-                showDialog = true
             },
-            onMoreDropDownBlockUserClick = {
-                chatViewModel.blockFriendToFirebase(registerUUID)
-                navController.navigate(BottomNavItem.UserList.fullRoute)
-            }
-        )
+        topBar = {
+            ChatAppBar(
+                title = "$opponentName $opponentSurname",
+                description = opponentStatus.lowercase(),
+                pictureUrl = opponentPictureUrl,
+                onUserNameClick = {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.user_profile_clicked), Toast.LENGTH_SHORT
+                    ).show()
+                }, onBackArrowClick = {
+                    navController.popBackStack()
+                    navController.navigate(BottomNavItem.UserList.fullRoute)
+                }, onUserProfilePictureClick = {
+                    showDialog = true
+                },
+                onMoreDropDownBlockUserClick = {
+                    chatViewModel.blockFriendToFirebase(registerUUID)
+                    navController.navigate(BottomNavItem.UserList.fullRoute)
+                }
+            )
+        },
+        bottomBar = {
+            ChatInput(
+                onMessageChange = { messageContent ->
+                    chatViewModel.insertMessageToFirebase(
+                        chatRoomUUID,
+                        messageContent,
+                        registerUUID,
+                        oneSignalUserId
+                    )
+                },
+                onFocusEvent = {
+                    isChatInputFocus = it
+                }
+            )
+        }
+    ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth(),
+                //.focusable()
+                .padding(innerPadding)
+            //.navigationBarsPadding()
+            //.imePadding()
+
+            //.weight(1f)
+            //.fillMaxWidth(),
+            ,
             state = scrollState
         ) {
             items(messages) { message: MessageRegister ->
                 val sdf = remember {
-                    SimpleDateFormat("hh:mm", Locale.ROOT)
+                    SimpleDateFormat("HH:mm", Locale.ROOT)
                 }
 
-                when (message.isMessageFromOpponent){
+                when (message.isMessageFromOpponent) {
                     true -> {
                         ReceivedMessageRow(
                             text = message.chatMessage.message,
@@ -175,7 +212,8 @@ fun ChatScreenContent(
                             messageTime = sdf.format(message.chatMessage.date),
                         )
                     }
-                    false ->{
+
+                    false -> {
                         SentMessageRow(
                             text = message.chatMessage.message,
                             quotedMessage = null,
@@ -187,18 +225,5 @@ fun ChatScreenContent(
             }
 
         }
-        ChatInput(
-            onMessageChange = { messageContent ->
-                chatViewModel.insertMessageToFirebase(
-                    chatRoomUUID,
-                    messageContent,
-                    registerUUID,
-                    oneSignalUserId
-                )
-            },
-            onFocusEvent = {
-                isChatInputFocus = it
-            }
-        )
     }
 }

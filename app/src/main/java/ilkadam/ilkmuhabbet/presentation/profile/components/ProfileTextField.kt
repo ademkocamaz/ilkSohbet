@@ -37,7 +37,7 @@ fun ProfileTextField(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = MaterialTheme.spacing.medium),
+            .padding(top = MaterialTheme.spacing.extraSmall),
 //            .onFocusChanged {
 //                if (isNameChange) {
 ////                    isFocusChange = true

@@ -23,8 +23,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import ilkadam.ilkmuhabbet.R
@@ -49,9 +51,10 @@ fun SignUpScreen(
 
     //Set SnackBar
     val toastMessage = authViewModel.toastMessage.value
-    LaunchedEffect(key1 = toastMessage) {
+    val context = LocalContext.current
+    LaunchedEffect(toastMessage, context) {
         if (toastMessage != "") {
-            SnackbarController(this).showSnackbar(snackbarHostState, toastMessage, "Close")
+            SnackbarController(this).showSnackbar(snackbarHostState, toastMessage, context.getString(R.string.close))
         }
     }
 
@@ -95,14 +98,14 @@ fun SignUpScreen(
                 TextLightweight()
 
                 Box(modifier = Modifier.padding(top = MaterialTheme.spacing.extraLarge)) {
-                    LoginEmailCustomOutlinedTextField(textEmail!!, "Email", Icons.Default.Email) {
+                    LoginEmailCustomOutlinedTextField(textEmail!!, stringResource(id = R.string.email), Icons.Default.Email) {
                         textEmail = it
                     }
                 }
                 Box(modifier = Modifier.padding(top = MaterialTheme.spacing.medium)) {
                     LoginPasswordCustomOutlinedTextField(
                         textPassword!!,
-                        "Password",
+                        stringResource(id = R.string.password),
                         Icons.Default.Password
                     ) {
                         textPassword = it
@@ -111,9 +114,9 @@ fun SignUpScreen(
 
                 ButtonSign(
                     onclick = {
-                        authViewModel.signUp(textEmail!!, textPassword!!)
+                        //authViewModel.signUp(textEmail!!, textPassword!!)
                     },
-                    signInOrSignUp = "Sign Up"
+                    signInOrSignUp = stringResource(id = R.string.sign_up)
                 )
             }
         }
@@ -135,8 +138,8 @@ fun SignUpScreen(
                     navController.navigate(BottomNavItem.SignIn.screen_route + "?emailFromSignUp=$textEmail")
                 }
             },
-            signInOrSignUp = "Sign In",
-            label = "Already have an account?"
+            signInOrSignUp = stringResource(id = R.string.sign_in),
+            label = stringResource(R.string.already_have_an_account)
         )
     }
 }

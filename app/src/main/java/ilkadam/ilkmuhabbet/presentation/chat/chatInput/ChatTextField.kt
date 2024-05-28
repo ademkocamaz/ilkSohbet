@@ -27,9 +27,11 @@ import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ilkadam.ilkmuhabbet.R
 
 @Composable
 fun ChatTextField(
@@ -75,8 +77,9 @@ fun ChatTextField(
                     decorationBox = { innerTextField ->
                         if (empty) {
                             Text(
-                                text = "Message",
-                                fontSize = 18.sp)
+                                text = stringResource(id = R.string.message),
+                                fontSize = 18.sp
+                            )
                         }
                         innerTextField()
                     }
@@ -84,7 +87,13 @@ fun ChatTextField(
             }
 
             IconButton(
-                onClick = { Toast.makeText(context, "Attach Clicked.\n(Not Available)", Toast.LENGTH_SHORT).show() },
+                onClick = {
+                    Toast.makeText(
+                        context,
+                        "Attach Clicked.\n(Not Available)",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },
                 modifier = Modifier.then(Modifier.size(circleButtonSize)),
             ) {
                 Icon(
@@ -95,7 +104,13 @@ fun ChatTextField(
             }
             AnimatedVisibility(visible = empty) {
                 IconButton(
-                    onClick = { Toast.makeText(context, "Send Photo Clicked.\n(Not Available)", Toast.LENGTH_SHORT).show() },
+                    onClick = {
+                        Toast.makeText(
+                            context,
+                            "Send Photo Clicked.\n(Not Available)",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    },
                     modifier = Modifier.then(Modifier.size(circleButtonSize)),
                 ) {
                     Icon(

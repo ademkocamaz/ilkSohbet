@@ -1,11 +1,13 @@
 package ilkadam.ilkmuhabbet.presentation.chat
 
+import android.app.Application
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ilkadam.ilkmuhabbet.R
 import ilkadam.ilkmuhabbet.domain.model.MessageRegister
 import ilkadam.ilkmuhabbet.domain.model.User
 import ilkadam.ilkmuhabbet.domain.usecase.chatScreen.ChatScreenUseCases
@@ -15,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChatScreenViewModel @Inject constructor(
-    private val chatScreenUseCases: ChatScreenUseCases
+    private val chatScreenUseCases: ChatScreenUseCases,
+    private val application: Application
 ) : ViewModel() {
     var opponentProfileFromFirebase = mutableStateOf(User())
         private set
@@ -105,7 +108,7 @@ class ChatScreenViewModel @Inject constructor(
                         toastMessage.value = ""
                     }
                     is Response.Success -> {
-                        toastMessage.value = "Friend Blocked"
+                        toastMessage.value = application.getString(R.string.friend_blocked)
                     }
                     is Response.Error -> {}
                 }
