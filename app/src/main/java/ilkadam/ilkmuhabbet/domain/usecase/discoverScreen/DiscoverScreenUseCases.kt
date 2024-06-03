@@ -1,4 +1,6 @@
 package ilkadam.ilkmuhabbet.domain.usecase.discoverScreen
 
-class DiscoverScreenUseCases {
+data class DiscoverScreenUseCases(
+    val getRandomUserFromFirebase: GetRandomUserFromFirebase
+) {
 }

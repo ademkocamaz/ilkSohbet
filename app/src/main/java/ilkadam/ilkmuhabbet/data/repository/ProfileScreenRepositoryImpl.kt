@@ -73,6 +73,14 @@ class ProfileScreenRepositoryImpl @Inject constructor(
                 //val userEmail = auth.currentUser?.email.toString()
                 val oneSignalUserId = OneSignal.getDeviceState()?.userId.toString()
 
+                val userDatabaseReference = database.getReference("Profiles").child(userUUID)
+                userDatabaseReference.get()
+                    .addOnSuccessListener { snapshot ->
+                    if (!snapshot.exists()) {
+                        userDatabaseReference.child("created").setValue(System.currentTimeMillis())
+                    }
+                }
+
                 val databaseReference =
                     database.getReference("Profiles").child(userUUID).child("profile")
 
@@ -87,8 +95,8 @@ class ProfileScreenRepositoryImpl @Inject constructor(
                     user.userProfilePictureUrl
                 //if (user.userSurName != "") childUpdates["/userSurName/"] = user.userSurName
                 if (user.userBio != "") childUpdates["/userBio/"] = user.userBio
-                if (user.userPhoneNumber != "") childUpdates["/userPhoneNumber/"] =
-                    user.userPhoneNumber
+                /*if (user.userPhoneNumber != "") childUpdates["/userPhoneNumber/"] =
+                    user.userPhoneNumber*/
                 childUpdates["/status/"] = UserStatus.ONLINE.toString()
 
                 databaseReference.updateChildren(childUpdates).await()
