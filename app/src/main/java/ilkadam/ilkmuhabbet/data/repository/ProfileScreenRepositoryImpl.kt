@@ -76,10 +76,11 @@ class ProfileScreenRepositoryImpl @Inject constructor(
                 val userDatabaseReference = database.getReference("Profiles").child(userUUID)
                 userDatabaseReference.get()
                     .addOnSuccessListener { snapshot ->
-                    if (!snapshot.exists()) {
-                        userDatabaseReference.child("created").setValue(System.currentTimeMillis())
+                        if (!snapshot.exists()) {
+                            userDatabaseReference.child("created")
+                                .setValue(System.currentTimeMillis())
+                        }
                     }
-                }
 
                 val databaseReference =
                     database.getReference("Profiles").child(userUUID).child("profile")
@@ -151,6 +152,23 @@ class ProfileScreenRepositoryImpl @Inject constructor(
                 }
             } catch (e: Exception) {
                 emit(Response.Error(e.message ?: ERROR_MESSAGE))
+            }
+        }
+
+    override suspend fun setUserCreatedToFirebase(time: Long): Flow<Response<Boolean>> =
+        flow {
+            try {
+                emit(Response.Loading)
+                if (auth.currentUser != null) {
+                    val userUUID = auth.currentUser?.uid.toString()
+
+                    val databaseReference =
+                        database.getReference("Profiles").child(userUUID).child("created")
+                    databaseReference.setValue(time.toString()).await()
+                    emit(Response.Success(true))
+                }
+            } catch (exception: Exception) {
+                emit(Response.Success(false))
             }
         }
 

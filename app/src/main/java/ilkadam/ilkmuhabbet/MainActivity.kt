@@ -129,8 +129,6 @@ class MainActivity : ComponentActivity(), OSSubscriptionObserver {
                 ) {
                     MainScreenView()
                 }
-
-                MainScreenView()
             }
         }
     }

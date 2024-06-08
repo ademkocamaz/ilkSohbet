@@ -135,7 +135,7 @@ class ProfileViewModel @Inject constructor(
                     }
                     is Response.Success -> {
                         userDataStateFromFirebase.value = response.data
-                        delay(500)
+                        //delay(500)
                         isLoading.value = false
                     }
                     is Response.Error -> {}

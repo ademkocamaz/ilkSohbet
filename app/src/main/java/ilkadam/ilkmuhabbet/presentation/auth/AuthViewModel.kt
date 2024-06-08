@@ -46,6 +46,7 @@ class AuthViewModel @Inject constructor(
                     }
                     is Response.Success -> {
                         setUserStatusToFirebase(UserStatus.ONLINE)
+                        setUserCreatedToFirebase(System.currentTimeMillis())
                         isUserSignInState.value = response.data
                         toastMessage.value = application.getString(R.string.login_successful)
 
@@ -53,6 +54,18 @@ class AuthViewModel @Inject constructor(
                     is Response.Error -> {
                         toastMessage.value = application.getString(R.string.login_failed)
                     }
+                }
+            }
+        }
+    }
+
+    fun setUserCreatedToFirebase(time:Long) {
+        viewModelScope.launch {
+            profileScreenUseCases.setUserCreatedToFirebase(time).collect{ response->
+                when (response) {
+                    is Response.Loading -> {}
+                    is Response.Success -> {}
+                    is Response.Error -> {}
                 }
             }
         }

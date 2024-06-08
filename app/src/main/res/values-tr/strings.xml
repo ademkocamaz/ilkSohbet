@@ -2,7 +2,7 @@
     <string name="app_name">ilkMuhabbet</string>
     <string name="save_profile">Güncelle</string>
     <string name="phone_number">Telefon</string>
-    <string name="about_you">Hakkınızda</string>
+    <string name="about_you">Hakkında</string>
     <string name="surname">Soyad</string>
     <string name="full_name">Ad</string>
     <string name="lightweight_instant_messaging">Tanışma, Sohbet, Muhabbet, Dostluk, Arkadaşlık, Flört</string>
@@ -29,7 +29,7 @@
     <string name="me">"Ben: "</string>
     <string name="last_message">"Son Mesaj: "</string>
     <string name="add_user_via_email">Email ile Kullanıcı Ekle</string>
-    <string name="add_user">Ekle</string>
+    <string name="add_user">Arkadaş Ekle</string>
     <string name="cancel">İptal</string>
     <string name="ok">Tamam</string>
     <string name="decline">Reddet</string>
@@ -42,4 +42,5 @@
     <string name="user_block_opened_and_accept_as_friend">Kullanıcı Engeli Kaldırıldı, Arkadaş Olarak Eklendi</string>
     <string name="you_are_blocked_by_user">Kullanıcı Tarafından Engellendiniz</string>
     <string name="add_new_message">Yen</string>
+    <string name="next">Geç</string>
 </resources>

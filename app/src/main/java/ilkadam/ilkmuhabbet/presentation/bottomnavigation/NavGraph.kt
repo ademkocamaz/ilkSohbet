@@ -17,6 +17,7 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import ilkadam.ilkmuhabbet.presentation.auth.signIn.SignInScreen
 import ilkadam.ilkmuhabbet.presentation.auth.signUp.SignUpScreen
 import ilkadam.ilkmuhabbet.presentation.chat.ChatScreen
+import ilkadam.ilkmuhabbet.presentation.discover.DiscoverScreen
 import ilkadam.ilkmuhabbet.presentation.profile.ProfileScreen
 import ilkadam.ilkmuhabbet.presentation.userlist.UserlistScreen
 
@@ -215,6 +216,34 @@ fun NavGraph(
                 keyboardController = keyboardController
             )
 
+        }
+
+        composable(
+            route = BottomNavItem.Discover.fullRoute,
+            enterTransition = {
+                when(initialState.destination.route){
+                    BottomNavItem.UserList.fullRoute->
+                        slideIntoContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Left,
+                            animationSpec = tween(250, easing = LinearEasing)
+                        )
+
+                    else -> null
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    BottomNavItem.Discover.fullRoute ->
+                        slideOutOfContainer(
+                            AnimatedContentTransitionScope.SlideDirection.Right,
+                            animationSpec = tween(250, easing = LinearEasing)
+                        )
+                    else -> null
+                }
+            }
+
+        ){
+            DiscoverScreen()
         }
     }
 }

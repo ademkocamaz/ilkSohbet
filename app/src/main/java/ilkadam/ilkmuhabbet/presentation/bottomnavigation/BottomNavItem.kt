@@ -2,6 +2,7 @@ package ilkadam.ilkmuhabbet.presentation.bottomnavigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.material.icons.filled.AddReaction
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -54,6 +55,15 @@ sealed class BottomNavItem(
         "/{chatroomUUID}" + "/{opponentUUID}" + "/{registerUUID}" + "/{oneSignalUserId}"
     ) {
         val fullRoute = screen_route + arguments
+    }
+
+    object Discover : BottomNavItem(
+        "Discover",
+        Icons.Filled.AddReaction,
+        "discover",
+        ""
+    ) {
+        val fullRoute = screen_route
     }
 
 }

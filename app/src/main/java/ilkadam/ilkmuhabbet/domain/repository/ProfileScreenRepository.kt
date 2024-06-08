@@ -12,4 +12,6 @@ interface ProfileScreenRepository {
     suspend fun createOrUpdateProfileToFirebase(user: User): Flow<Response<Boolean>>
     suspend fun loadProfileFromFirebase(): Flow<Response<User>>
     suspend fun setUserStatusToFirebase(userStatus: UserStatus): Flow<Response<Boolean>>
+
+    suspend fun setUserCreatedToFirebase(time: Long): Flow<Response<Boolean>>
 }

@@ -15,10 +15,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ilkadam.ilkmuhabbet.data.repository.AuthScreenRepositoryImpl
 import ilkadam.ilkmuhabbet.data.repository.ChatScreenRepositoryImpl
+import ilkadam.ilkmuhabbet.data.repository.DiscoverScreenRepositoryImpl
 import ilkadam.ilkmuhabbet.data.repository.ProfileScreenRepositoryImpl
 import ilkadam.ilkmuhabbet.data.repository.UserListScreenRepositoryImpl
 import ilkadam.ilkmuhabbet.domain.repository.AuthScreenRepository
 import ilkadam.ilkmuhabbet.domain.repository.ChatScreenRepository
+import ilkadam.ilkmuhabbet.domain.repository.DiscoverScreenRepository
 import ilkadam.ilkmuhabbet.domain.repository.ProfileScreenRepository
 import ilkadam.ilkmuhabbet.domain.repository.UserListScreenRepository
 import ilkadam.ilkmuhabbet.domain.usecase.authScreen.AuthUseCases
@@ -29,9 +31,12 @@ import ilkadam.ilkmuhabbet.domain.usecase.chatScreen.ChatScreenUseCases
 import ilkadam.ilkmuhabbet.domain.usecase.chatScreen.InsertMessageToFirebase
 import ilkadam.ilkmuhabbet.domain.usecase.chatScreen.LoadMessageFromFirebase
 import ilkadam.ilkmuhabbet.domain.usecase.chatScreen.LoadOpponentProfileFromFirebase
+import ilkadam.ilkmuhabbet.domain.usecase.discoverScreen.DiscoverScreenUseCases
+import ilkadam.ilkmuhabbet.domain.usecase.discoverScreen.GetRandomUserFromFirebase
 import ilkadam.ilkmuhabbet.domain.usecase.profileScreen.CreateOrUpdateProfileToFirebase
 import ilkadam.ilkmuhabbet.domain.usecase.profileScreen.LoadProfileFromFirebase
 import ilkadam.ilkmuhabbet.domain.usecase.profileScreen.ProfileScreenUseCases
+import ilkadam.ilkmuhabbet.domain.usecase.profileScreen.SetUserCreatedToFirebase
 import ilkadam.ilkmuhabbet.domain.usecase.profileScreen.SetUserStatusToFirebase
 import ilkadam.ilkmuhabbet.domain.usecase.profileScreen.UploadPictureToFirebase
 import ilkadam.ilkmuhabbet.domain.usecase.userListScreen.AcceptPendingFriendRequestToFirebase
@@ -92,6 +97,14 @@ object AppModule {
     ): UserListScreenRepository = UserListScreenRepositoryImpl(auth, database)
 
     @Provides
+    fun provideDiscoverScreenRepository(
+        auth: FirebaseAuth,
+        database: FirebaseDatabase,
+        storage: FirebaseStorage
+    ): DiscoverScreenRepository = DiscoverScreenRepositoryImpl(auth, database, storage)
+
+
+    @Provides
     fun provideAuthScreenUseCase(authRepository: AuthScreenRepository) = AuthUseCases(
         isUserAuthenticated = IsUserAuthenticatedInFirebase(authRepository),
         signIn = SignIn(authRepository),
@@ -115,7 +128,8 @@ object AppModule {
             loadProfileFromFirebase = LoadProfileFromFirebase(profileScreenRepository),
             setUserStatusToFirebase = SetUserStatusToFirebase(profileScreenRepository),
             //signOut = SignOut(profileScreenRepository),
-            uploadPictureToFirebase = UploadPictureToFirebase(profileScreenRepository)
+            uploadPictureToFirebase = UploadPictureToFirebase(profileScreenRepository),
+            setUserCreatedToFirebase = SetUserCreatedToFirebase(profileScreenRepository)
         )
 
     @Provides
@@ -145,5 +159,11 @@ object AppModule {
                 userListScreenRepository
             ),
             searchUserFromFirebase = SearchUserFromFirebase(userListScreenRepository),
+        )
+
+    @Provides
+    fun provideDiscoverScreenUseCases(discoverScreenRepository: DiscoverScreenRepository) =
+        DiscoverScreenUseCases(
+            getRandomUserFromFirebase = GetRandomUserFromFirebase(discoverScreenRepository)
         )
 }
