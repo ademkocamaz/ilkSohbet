@@ -7,5 +7,7 @@ data class FriendListRow(
     val oneSignalUserId: String,
     val registerUUID: String = "",
     val userPictureUrl: String = "",
-    val lastMessage: ChatMessage = ChatMessage()
+    val lastMessage: ChatMessage = ChatMessage(),
+
+    val userName: String = ""
 )

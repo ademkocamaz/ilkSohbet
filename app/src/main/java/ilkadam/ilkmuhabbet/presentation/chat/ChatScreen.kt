@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import ilkadam.ilkmuhabbet.R
@@ -38,6 +39,7 @@ import ilkadam.ilkmuhabbet.core.SnackbarController
 import ilkadam.ilkmuhabbet.domain.model.MessageRegister
 import ilkadam.ilkmuhabbet.domain.model.MessageStatus
 import ilkadam.ilkmuhabbet.domain.model.User
+import ilkadam.ilkmuhabbet.domain.model.UserStatus
 import ilkadam.ilkmuhabbet.presentation.bottomnavigation.BottomNavItem
 import ilkadam.ilkmuhabbet.presentation.chat.chatAppBar.ChatAppBar
 import ilkadam.ilkmuhabbet.presentation.chat.chatAppBar.ProfilePictureDialog
@@ -104,9 +106,12 @@ fun ChatScreenContent(
     }
     opponentProfileFromFirebase = chatViewModel.opponentProfileFromFirebase.value
     val opponentName = opponentProfileFromFirebase.userName
-    val opponentSurname = opponentProfileFromFirebase.userSurName
+    //val opponentSurname = opponentProfileFromFirebase.userSurName
     val opponentPictureUrl = opponentProfileFromFirebase.userProfilePictureUrl
-    val opponentStatus = opponentProfileFromFirebase.status
+    val opponentStatus =
+        if (opponentProfileFromFirebase.status == UserStatus.ONLINE.toString()) stringResource(R.string.online) else stringResource(
+            R.string.offline
+        )
 
     var showDialog by remember {
         mutableStateOf(false)
@@ -150,7 +155,8 @@ fun ChatScreenContent(
             },
         topBar = {
             ChatAppBar(
-                title = "$opponentName $opponentSurname",
+                //title = "$opponentName $opponentSurname",
+                title = "$opponentName",
                 description = opponentStatus.lowercase(),
                 pictureUrl = opponentPictureUrl,
                 onUserNameClick = {

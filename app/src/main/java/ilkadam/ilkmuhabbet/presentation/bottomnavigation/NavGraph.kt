@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -29,7 +30,7 @@ fun NavGraph(
     snackbarHostState: SnackbarHostState,
     keyboardController: SoftwareKeyboardController
 ) {
-    AnimatedNavHost(navController, startDestination = BottomNavItem.SignIn.fullRoute) {
+    NavHost(navController, startDestination = BottomNavItem.SignIn.fullRoute) {
         //SIGN IN SCREEN
         composable(
             BottomNavItem.SignIn.fullRoute,
@@ -39,7 +40,7 @@ fun NavGraph(
                     defaultValue = ""
                 }
             ),
-            enterTransition = {
+            /*enterTransition = {
                 when (initialState.destination.route) {
 //                    BottomNavItem.SignUp.fullRoute ->
 //                        slideIntoContainer(
@@ -49,7 +50,7 @@ fun NavGraph(
                     else -> null
                 }
 
-            }
+            }*/
         ) {
             val emailFromSignUp = remember {
                 it.arguments?.getString("emailFromSignUp")
@@ -105,13 +106,14 @@ fun NavGraph(
 
         composable(
             BottomNavItem.Profile.fullRoute,
-            enterTransition = {
+            /*enterTransition = {
                 when (initialState.destination.route) {
                     BottomNavItem.UserList.fullRoute ->
                         slideIntoContainer(
                             AnimatedContentTransitionScope.SlideDirection.Right,
                             animationSpec = tween(250, easing = LinearEasing)
                         )
+
                     else -> null
                 }
 
@@ -122,9 +124,10 @@ fun NavGraph(
                             AnimatedContentTransitionScope.SlideDirection.Left,
                             animationSpec = tween(250, easing = LinearEasing)
                         )
+
                     else -> null
                 }
-            }) {
+            }*/) {
             ProfileScreen(
                 navController = navController,
                 snackbarHostState = snackbarHostState,
@@ -133,7 +136,7 @@ fun NavGraph(
         }
         composable(
             BottomNavItem.UserList.fullRoute,
-            enterTransition = {
+            /*enterTransition = {
                 when (initialState.destination.route) {
                     BottomNavItem.Profile.fullRoute ->
                         slideIntoContainer(
@@ -157,9 +160,10 @@ fun NavGraph(
                             AnimatedContentTransitionScope.SlideDirection.Right,
                             animationSpec = tween(250, easing = LinearEasing)
                         )
+
                     else -> null
                 }
-            }) {
+            }*/) {
             UserlistScreen(
                 navController = navController,
                 snackbarHostState = snackbarHostState,
@@ -179,7 +183,7 @@ fun NavGraph(
                 }, navArgument("oneSignalUserId") {
                     type = NavType.StringType
                 }),
-            enterTransition = {
+            /*enterTransition = {
                 when (initialState.destination.route) {
 //                    BottomNavItem.UserList.fullRoute -> slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
                     else -> null
@@ -191,7 +195,7 @@ fun NavGraph(
 //                    BottomNavItem.UserList.fullRoute -> slideOutOfContainer(AnimatedContentScope.SlideDirection.Right, animationSpec = tween(700))
                     else -> null
                 }
-            }) {
+            }*/) {
 
             val chatroomUUID = remember {
                 it.arguments?.getString("chatroomUUID")
@@ -220,9 +224,9 @@ fun NavGraph(
 
         composable(
             route = BottomNavItem.Discover.fullRoute,
-            enterTransition = {
-                when(initialState.destination.route){
-                    BottomNavItem.UserList.fullRoute->
+            /*enterTransition = {
+                when (initialState.destination.route) {
+                    BottomNavItem.UserList.fullRoute ->
                         slideIntoContainer(
                             AnimatedContentTransitionScope.SlideDirection.Left,
                             animationSpec = tween(250, easing = LinearEasing)
@@ -238,12 +242,13 @@ fun NavGraph(
                             AnimatedContentTransitionScope.SlideDirection.Right,
                             animationSpec = tween(250, easing = LinearEasing)
                         )
+
                     else -> null
                 }
-            }
+            }*/
 
-        ){
-            DiscoverScreen()
+        ) {
+            DiscoverScreen(snackbarHostState = snackbarHostState)
         }
     }
 }

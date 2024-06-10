@@ -1,6 +1,7 @@
 package ilkadam.ilkmuhabbet.presentation.userlist
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -38,7 +39,7 @@ class UserListViewModel @Inject constructor(
             isRefreshing.value = true
             loadPendingFriendRequestListFromFirebase()
             loadAcceptFriendRequestListFromFirebase()
-            delay(1000)
+            //delay(1000)
             isRefreshing.value = false
         }
     }
@@ -115,14 +116,21 @@ class UserListViewModel @Inject constructor(
             userListScreenUseCases.loadAcceptedFriendRequestListFromFirebase.invoke()
                 .collect { response ->
                     when (response) {
-                        is Response.Loading -> {}
+                        is Response.Loading -> {
+                            //Log.i("loadAcceptedFriendRequestListFromFirebase","response.loading")
+                        }
                         is Response.Success -> {
+                            //Log.i("loadAcceptedFriendRequestListFromFirebase","response.success")
                             if (response.data.isNotEmpty()) {
                                 acceptedFriendRequestList.value = response.data
+                            }else{
+                                //Log.i("loadAcceptedFriendRequestListFromFirebase", "data:"+response.data.toString())
                             }
                         }
 
-                        is Response.Error -> {}
+                        is Response.Error -> {
+                            //Log.i("loadAcceptedFriendRequestListFromFirebase","response.error")
+                        }
                     }
                 }
         }
@@ -260,9 +268,7 @@ class UserListViewModel @Inject constructor(
             ).collect { response ->
                 when (response) {
                     is Response.Loading -> {}
-                    is Response.Success -> {
-                    }
-
+                    is Response.Success -> {}
                     is Response.Error -> {}
                 }
 

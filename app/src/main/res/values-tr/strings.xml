@@ -43,4 +43,6 @@
     <string name="you_are_blocked_by_user">Kullanıcı Tarafından Engellendiniz</string>
     <string name="add_new_message">Yen</string>
     <string name="next">Geç</string>
+    <string name="online">Çevrimiçi</string>
+    <string name="offline">Çevrimdışı</string>
 </resources>

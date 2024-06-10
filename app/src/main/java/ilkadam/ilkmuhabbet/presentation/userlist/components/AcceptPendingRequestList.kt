@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MarkEmailUnread
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -43,19 +44,18 @@ fun AcceptPendingRequestList(
     item: FriendListRow,
     onclick: () -> Unit = {}
 ) {
-    Box(
+    Card(
         modifier = Modifier
             .fillMaxSize()
+            .padding(MaterialTheme.spacing.small)
             .clickable {
                 onclick()
             }
+
     ) {
         Row(
             modifier = Modifier
-                .padding(
-                    horizontal = MaterialTheme.spacing.small,
-                    vertical = MaterialTheme.spacing.small
-                ),
+                .padding(MaterialTheme.spacing.small),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Surface(
@@ -88,19 +88,23 @@ fun AcceptPendingRequestList(
                     Row(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(start = MaterialTheme.spacing.small),
+                            .padding(MaterialTheme.spacing.small),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column {
                             Text(
-                                text = item.userEmail,
+//                                text = item.userEmail,
+                                text = item.userName,
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.Bold
                             )
                             Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
                             Text(
-                                text = stringResource(id = R.string.last_message) + item.lastMessage.message,
+                                text = stringResource(id = R.string.last_message) + if (item.lastMessage.message.length > 15) item.lastMessage.message.substring(
+                                    0,
+                                    14
+                                ) + "..." else item.lastMessage.message,
                                 style = MaterialTheme.typography.titleSmall,
                             )
                         }
@@ -114,7 +118,6 @@ fun AcceptPendingRequestList(
                                 modifier = Modifier
                                     .align(Alignment.CenterHorizontally)
                             )
-
                             Icon(
                                 imageVector = Icons.Filled.MarkEmailUnread,
                                 tint = MaterialTheme.colorScheme.primary,
@@ -128,25 +131,29 @@ fun AcceptPendingRequestList(
                     }
                 } else {
                     val dateTimeControl: Long = 0
-                    if (!item.lastMessage.date.equals(dateTimeControl)) {
+                    if (item.lastMessage.date != dateTimeControl) {
 
                         if (item.lastMessage.profileUUID != item.userUUID) {
                             Row(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .padding(start = MaterialTheme.spacing.small),
+                                    .padding(MaterialTheme.spacing.small),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Column {
                                     Text(
-                                        text = item.userEmail,
+//                                        text = item.userEmail,
+                                        text = item.userName,
                                         style = MaterialTheme.typography.titleMedium,
                                         fontWeight = FontWeight.Bold
                                     )
                                     Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
                                     Text(
-                                        text = stringResource(R.string.me) + item.lastMessage.message,
+                                        text = stringResource(R.string.me) + if (item.lastMessage.message.length > 15) item.lastMessage.message.substring(
+                                            0,
+                                            14
+                                        ) + "..." else item.lastMessage.message,
                                         style = MaterialTheme.typography.titleSmall,
 
                                         )
@@ -163,19 +170,23 @@ fun AcceptPendingRequestList(
                             Row(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .padding(start = MaterialTheme.spacing.small),
+                                    .padding(MaterialTheme.spacing.small),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Column {
                                     Text(
-                                        text = item.userEmail,
+//                                        text = item.userEmail,
+                                        text = item.userName,
                                         style = MaterialTheme.typography.titleMedium,
                                         fontWeight = FontWeight.Bold
                                     )
                                     Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
                                     Text(
-                                        text = stringResource(R.string.last_message) + item.lastMessage.message,
+                                        text = stringResource(R.string.last_message) + if (item.lastMessage.message.length > 15) item.lastMessage.message.substring(
+                                            0,
+                                            14
+                                        ) + "..." else item.lastMessage.message,
                                         style = MaterialTheme.typography.titleSmall,
                                     )
                                 }
@@ -195,7 +206,8 @@ fun AcceptPendingRequestList(
                                 .padding(start = MaterialTheme.spacing.small)
                         ) {
                             Text(
-                                text = item.userEmail,
+//                                text = item.userEmail,
+                                text = item.userName,
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center,

@@ -1,5 +1,6 @@
 package ilkadam.ilkmuhabbet.data.repository
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -40,6 +41,8 @@ class UserListScreenRepositoryImpl @Inject constructor(
     override suspend fun loadAcceptedFriendRequestListFromFirebase(): Flow<Response<List<FriendListRow>>> =
         callbackFlow {
             try {
+                this@callbackFlow.trySendBlocking(Response.Loading)
+
                 val myUUID = auth.currentUser?.uid
                 val databaseReference = database.getReference("Friend_List")
 
@@ -66,18 +69,21 @@ class UserListScreenRepositoryImpl @Inject constructor(
                                     var email: String = ""
                                     var uuid: String = ""
                                     var oneSignalUserId: String = ""
+                                    var userName: String = ""
 
                                     if (i.requesterUUID == myUUID) {
+                                        userName = i.acceptorUserName
                                         email = i.acceptorEmail
                                         uuid = i.acceptorUUID
                                         oneSignalUserId = i.acceptorOneSignalUserId
                                     } else if (i.acceptorUUID == myUUID) {
+                                        userName = i.requesterUserName
                                         email = i.requesterEmail
                                         uuid = i.requesterUUID
                                         oneSignalUserId = i.requesterOneSignalUserId
                                     }
 
-                                    if (email != "" && uuid != "") {
+                                    if (userName != "" && uuid != "") {
                                         val friendListRow = FriendListRow(
                                             chatRoomUID,
                                             email,
@@ -85,7 +91,8 @@ class UserListScreenRepositoryImpl @Inject constructor(
                                             oneSignalUserId,
                                             registerUUID,
                                             pictureUrl,
-                                            lastMessage
+                                            lastMessage,
+                                            userName
                                         )
                                         friendListUiRowList += friendListRow
                                     }
@@ -108,7 +115,8 @@ class UserListScreenRepositoryImpl @Inject constructor(
                                                         i.oneSignalUserId,
                                                         i.registerUUID,
                                                         if (it.value != null) it.value as String else "",
-                                                        i.lastMessage
+                                                        i.lastMessage,
+                                                        i.userName
                                                     )
                                                     resultList += friendListUiRow
                                                 }.addOnFailureListener {

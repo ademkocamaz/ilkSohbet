@@ -43,4 +43,6 @@
     <string name="you_are_blocked_by_user">You Are Blocked by User</string>
     <string name="add_new_message">Add New Message</string>
     <string name="next">Next</string>
+    <string name="online">Online</string>
+    <string name="offline">Offline</string>
 </resources>

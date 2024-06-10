@@ -6,7 +6,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
@@ -31,6 +30,11 @@ import ilkadam.ilkmuhabbet.domain.usecase.chatScreen.ChatScreenUseCases
 import ilkadam.ilkmuhabbet.domain.usecase.chatScreen.InsertMessageToFirebase
 import ilkadam.ilkmuhabbet.domain.usecase.chatScreen.LoadMessageFromFirebase
 import ilkadam.ilkmuhabbet.domain.usecase.chatScreen.LoadOpponentProfileFromFirebase
+import ilkadam.ilkmuhabbet.domain.usecase.discoverScreen.DiscoverCheckChatRoomExistedFromFirebase
+import ilkadam.ilkmuhabbet.domain.usecase.discoverScreen.DiscoverCheckFriendListRegisterIsExistedFromFirebase
+import ilkadam.ilkmuhabbet.domain.usecase.discoverScreen.DiscoverCreateChatRoomToFirebase
+import ilkadam.ilkmuhabbet.domain.usecase.discoverScreen.DiscoverCreateFriendListRegisterToFirebase
+import ilkadam.ilkmuhabbet.domain.usecase.discoverScreen.DiscoverOpenBlockedFriendToFirebase
 import ilkadam.ilkmuhabbet.domain.usecase.discoverScreen.DiscoverScreenUseCases
 import ilkadam.ilkmuhabbet.domain.usecase.discoverScreen.GetRandomUserFromFirebase
 import ilkadam.ilkmuhabbet.domain.usecase.profileScreen.CreateOrUpdateProfileToFirebase
@@ -100,8 +104,10 @@ object AppModule {
     fun provideDiscoverScreenRepository(
         auth: FirebaseAuth,
         database: FirebaseDatabase,
-        storage: FirebaseStorage
-    ): DiscoverScreenRepository = DiscoverScreenRepositoryImpl(auth, database, storage)
+        storage: FirebaseStorage,
+        profileScreenRepository: ProfileScreenRepository
+    ): DiscoverScreenRepository =
+        DiscoverScreenRepositoryImpl(auth, database, storage, profileScreenRepository)
 
 
     @Provides
@@ -164,6 +170,21 @@ object AppModule {
     @Provides
     fun provideDiscoverScreenUseCases(discoverScreenRepository: DiscoverScreenRepository) =
         DiscoverScreenUseCases(
-            getRandomUserFromFirebase = GetRandomUserFromFirebase(discoverScreenRepository)
+            getRandomUserFromFirebase = GetRandomUserFromFirebase(discoverScreenRepository),
+            discoverCheckChatRoomExistedFromFirebase = DiscoverCheckChatRoomExistedFromFirebase(
+                discoverScreenRepository
+            ),
+            discoverCreateChatRoomToFirebase = DiscoverCreateChatRoomToFirebase(
+                discoverScreenRepository
+            ),
+            discoverCheckFriendListRegisterIsExistedFromFirebase = DiscoverCheckFriendListRegisterIsExistedFromFirebase(
+                discoverScreenRepository
+            ),
+            discoverCreateFriendListRegisterToFirebase = DiscoverCreateFriendListRegisterToFirebase(
+                discoverScreenRepository
+            ),
+            discoverOpenBlockedFriendToFirebase = DiscoverOpenBlockedFriendToFirebase(
+                discoverScreenRepository
+            )
         )
 }

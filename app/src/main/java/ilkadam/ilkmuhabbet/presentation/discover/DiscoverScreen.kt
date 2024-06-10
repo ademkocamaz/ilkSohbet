@@ -27,8 +27,10 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,6 +50,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import ilkadam.ilkmuhabbet.R
+import ilkadam.ilkmuhabbet.core.SnackbarController
 import ilkadam.ilkmuhabbet.domain.model.User
 import ilkadam.ilkmuhabbet.presentation.profile.components.ChooseProfilePicFromGallery
 import ilkadam.ilkmuhabbet.presentation.userlist.UserListViewModel
@@ -56,12 +59,23 @@ import ilkadam.ilkmuhabbet.ui.theme.spacing
 @Composable
 fun DiscoverScreen(
     discoverScreenViewModel: DiscoverScreenViewModel = hiltViewModel(),
-    userListViewModel: UserListViewModel = hiltViewModel()
+    snackbarHostState: SnackbarHostState,
 ) {
     //rastgele kullanıcı gelecek -> checked
     //resim, ad ve hakkında görüntüleyeceğiz -> checked
     //arkadaşlık isteği gönderilebilecek
     //beğenmediğinde başka rastgele kullanıcı gelecek -> Geç tıklandığında
+    val toastMessage = discoverScreenViewModel.toastMessage.value
+    val context = LocalContext.current
+    LaunchedEffect(toastMessage, context) {
+        if (toastMessage != "") {
+            SnackbarController(this).showSnackbar(
+                snackbarHostState, toastMessage, context.getString(
+                    R.string.close
+                )
+            )
+        }
+    }
 
     var isLoading by remember {
         mutableStateOf(false)
@@ -80,7 +94,6 @@ fun DiscoverScreen(
     var userDataPictureUrl by remember { mutableStateOf("") }
     userDataPictureUrl = userDataFromFirebase.userProfilePictureUrl
 
-    val context = LocalContext.current
 
     Scaffold { innerPadding ->
         Column(
@@ -149,7 +162,7 @@ fun DiscoverScreen(
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         Button(onClick = {
-                            userListViewModel.createFriendshipRegisterToFirebase(userDataFromFirebase.profileUUID)
+                            discoverScreenViewModel.createFriendshipRegisterToFirebase(userDataFromFirebase)
                         }) {
                             Icon(imageVector = Icons.Filled.PersonAddAlt1, contentDescription = "")
                             Spacer(modifier = Modifier.width(5.dp))

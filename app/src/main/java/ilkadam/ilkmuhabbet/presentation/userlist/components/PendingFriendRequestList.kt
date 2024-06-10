@@ -39,7 +39,8 @@ fun PendingFriendRequestList(
         ) {
             Text(
                 modifier = Modifier.padding(MaterialTheme.spacing.small),
-                text = item.requesterEmail,
+//                text = item.requesterEmail,
+                text = item.requesterUserName,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
             )

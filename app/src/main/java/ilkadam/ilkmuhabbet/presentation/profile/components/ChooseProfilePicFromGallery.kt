@@ -1,5 +1,7 @@
 package ilkadam.ilkmuhabbet.presentation.profile.components
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.READ_MEDIA_IMAGES
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -50,6 +52,13 @@ fun ChooseProfilePicFromGallery(
         onSelect(uri)
     }
 
+    val requestPermission =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                launcher.launch("image/*")
+            }
+        }
+
     Box(
         modifier = Modifier
             .clip(CircleShape),
@@ -73,7 +82,16 @@ fun ChooseProfilePicFromGallery(
                 contentDescription = null,
                 modifier = Modifier
 //                    .padding(MaterialTheme.spacing.medium)
-                    .clickable { launcher.launch("image/*") }
+                    .clickable {
+                        // Check if the Android version is TIRAMISU or newer
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            // Use the requestPermessionLauncher to request the READ_MEDIA_IMAGES permission
+                            requestPermission.launch(READ_MEDIA_IMAGES)
+                        } else {
+                            // For older Android versions, use READ_EXTERNAL_STORAGE permission
+                            requestPermission.launch(READ_EXTERNAL_STORAGE)
+                        }
+                    }
                     .size(size),
 //                    .clip(CircleShape),
                 contentScale = ContentScale.Crop

@@ -10,5 +10,8 @@ data class FriendListRegister(
     var acceptorUUID: String = "",
     var acceptorOneSignalUserId: String = "",
     var status: String = "",
-    var lastMessage: ChatMessage = ChatMessage()
+    var lastMessage: ChatMessage = ChatMessage(),
+
+    var acceptorUserName: String = "",
+    var requesterUserName: String = ""
 )

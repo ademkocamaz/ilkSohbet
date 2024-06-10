@@ -122,7 +122,7 @@ fun ChatAppBar(
             }
         },
         actions = {
-            IconButton(
+            /*IconButton(
                 onClick = {
                     Toast.makeText(
                         context,
@@ -141,7 +141,7 @@ fun ChatAppBar(
                     ).show()
                 }) {
                 Icon(imageVector = Icons.Filled.Call, contentDescription = null)
-            }
+            }*/
             IconButton(
                 onClick = {
                     expanded = true

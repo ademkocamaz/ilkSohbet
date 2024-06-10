@@ -94,7 +94,6 @@ class ProfileViewModel @Inject constructor(
                         }else{
                             toastMessage.value = application.getString(R.string.profile_saved)
                         }
-                        //delay(2000) //Bu ne içindi hatırlayamadım.
                         loadProfileFromFirebase()
                     }
                     is Response.Error -> {
