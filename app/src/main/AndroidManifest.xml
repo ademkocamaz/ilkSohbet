@@ -26,6 +26,7 @@
         android:theme="@style/Theme.IlkSohbet.Starting"
 
         tools:targetApi="31">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
