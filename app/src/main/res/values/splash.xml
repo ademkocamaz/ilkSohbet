@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.IlkMuhabbet.Starting" parent="Theme.SplashScreen">
+    <style name="Theme.IlkSohbet.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
         <item name="windowSplashScreenBackground">@color/ic_launcher_background</item>
-        <item name="postSplashScreenTheme">@style/Theme.IlkMuhabbet</item>
+        <item name="postSplashScreenTheme">@style/Theme.IlkSohbet</item>
     </style>
 </resources>

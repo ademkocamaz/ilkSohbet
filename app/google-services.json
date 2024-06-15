@@ -1,22 +1,21 @@
 {
   "project_info": {
-    "project_number": "755370232096",
-    "firebase_url": "https://ilkmuhabbet-19e95-default-rtdb.firebaseio.com",
-    "project_id": "ilkmuhabbet-19e95",
-    "storage_bucket": "ilkmuhabbet-19e95.appspot.com"
+    "project_number": "203852316493",
+    "project_id": "ilksohbet-9e1b6",
+    "storage_bucket": "ilksohbet-9e1b6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:755370232096:android:11d1cc890f86252b192f45",
+        "mobilesdk_app_id": "1:203852316493:android:37b0b9c7655a2089910104",
         "android_client_info": {
-          "package_name": "ilkadam.ilkmuhabbet"
+          "package_name": "ilkadam.ilksohbet"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDNwl2UK13pBDuTf6UZCJqwVyyhhMce_Ew"
+          "current_key": "AIzaSyDMBAyZH54kzXuvBI4-yrQLOYw2TIm46fY"
         }
       ],
       "services": {

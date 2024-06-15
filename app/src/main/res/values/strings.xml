@@ -1,34 +1,20 @@
 <resources>
-    <string name="app_name">ilkMuhabbet</string>
+    <string name="app_name">ilkSohbet</string>
     <string name="save_profile">Save Profile</string>
-    <string name="phone_number">Phone Number</string>
     <string name="about_you">About</string>
-    <string name="surname">Surname</string>
     <string name="full_name">Name</string>
-    <string name="lightweight_instant_messaging">Lightweight instant messaging</string>
     <string name="close">Close</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
-    <string name="don_t_have_an_account">Don\'t have an account?</string>
-    <string name="already_have_an_account">Already have an account?</string>
     <string name="login_successful">Login Successful</string>
     <string name="login_failed">Login Failed</string>
-    <string name="sign_up_successful">Sign Up Successful</string>
-    <string name="sign_up_failed">Sign Up Failed</string>
     <string name="block_user">Block User</string>
     <string name="message">Message</string>
-    <string name="user_profile_clicked">User Profile Clicked</string>
     <string name="friend_blocked">Friend Blocked</string>
-    <string name="log_out">Log Out</string>
     <string name="profile_updated">Profile Updated</string>
     <string name="profile_saved">Profile Saved</string>
     <string name="update_failed">Update Failed</string>
-    <string name="sign_out">Sign Out</string>
     <string name="me">"Me: "</string>
     <string name="last_message">"Last Message: "</string>
-    <string name="add_user_via_email">Add user via email</string>
     <string name="add_user">Add Friend</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
@@ -41,8 +27,8 @@
     <string name="you_are_already_friend">You Are Already Friend.</string>
     <string name="user_block_opened_and_accept_as_friend">User Block Opened And Accept As Friend</string>
     <string name="you_are_blocked_by_user">You Are Blocked by User</string>
-    <string name="add_new_message">Add New Message</string>
     <string name="next">Next</string>
     <string name="online">Online</string>
     <string name="offline">Offline</string>
+    <string name="welcome">Welcome</string>
 </resources>
