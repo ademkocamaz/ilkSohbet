@@ -173,6 +173,11 @@ fun ProfileScreen(
                             style = MaterialTheme.typography.titleMedium
                         )
                     }
+                    /*Button(onClick = {
+                        throw RuntimeException("Test Crash")
+                    }) {
+                        Text(text = "Test Crash")
+                    }*/
                     /*LogOutCustomText {
                         profileViewModel.setUserStatusToFirebaseAndSignOut(UserStatus.OFFLINE)
                     }*/
