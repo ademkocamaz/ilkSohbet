@@ -2,6 +2,7 @@ package ilkadam.ilksohbet.presentation.profile
 
 import android.annotation.SuppressLint
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -112,8 +113,7 @@ fun ProfileScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = MaterialTheme.spacing.medium)
-                ,
+                    .padding(horizontal = MaterialTheme.spacing.medium),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -140,7 +140,10 @@ fun ProfileScreen(
                         surName,
                         stringResource(R.string.surname),
                         { surName = it })*/
-                    ProfileTextField(bio, stringResource(R.string.about_you), { bio = it })
+                    ProfileTextField(
+                        entry = bio,
+                        hint = stringResource(R.string.about_you),
+                        onChange = { bio = it })
                     /*ProfileTextField(
                         phoneNumber,
                         stringResource(R.string.phone_number),
@@ -152,15 +155,39 @@ fun ProfileScreen(
                             .padding(top = MaterialTheme.spacing.large)
                             .fillMaxWidth(),
                         onClick = {
-                            if (name != "") {
-                                profileViewModel.updateProfileToFirebase(User(userName = name))
+                            if (name == "") {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.name_field_is_empty),
+                                    Toast.LENGTH_LONG
+                                )
+                                    .show()
+
+                            }
+                            if (bio == "") {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.about_field_is_empty),
+                                    Toast.LENGTH_LONG
+                                )
+                                    .show()
+                            }
+                            if (name != "" && bio != "") {
+                                profileViewModel.updateProfileToFirebase(
+                                    User(
+                                        userName = name,
+                                        userBio = bio
+                                    )
+                                )
                             }
                             /*if (surName != "") {
                                 profileViewModel.updateProfileToFirebase(User(userSurName = surName))
                             }*/
-                            if (bio != "") {
+                            /*if (bio != "") {
                                 profileViewModel.updateProfileToFirebase(User(userBio = bio))
-                            }
+                            } else {
+
+                            }*/
                             /*if (phoneNumber != "") {
                                 profileViewModel.updateProfileToFirebase(User(userPhoneNumber = phoneNumber))
                             }*/

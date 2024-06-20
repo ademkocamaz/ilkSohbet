@@ -30,8 +30,8 @@ import javax.inject.Inject
 class DiscoverScreenRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
     private val database: FirebaseDatabase,
-    private val storage: FirebaseStorage,
-    private val profileScreenRepository: ProfileScreenRepository
+/*    private val storage: FirebaseStorage,
+    private val profileScreenRepository: ProfileScreenRepository*/
 ) : DiscoverScreenRepository {
 
     override suspend fun getRandomUserFromFirebase(): Flow<Response<User?>> = callbackFlow {
@@ -45,7 +45,10 @@ class DiscoverScreenRepositoryImpl @Inject constructor(
                         val max = System.currentTimeMillis()*/
                         val userList = snapshot.children.toList()
                         var selectedUser = userList.random().child("profile").getValue<User>()
-                        while (selectedUser?.profileUUID.equals(auth.uid.toString())) {
+                        while (
+                            selectedUser?.profileUUID.equals(auth.uid.toString()) ||
+                            selectedUser?.userName==""
+                        ) {
                             selectedUser = userList.random().child("profile").getValue<User>()
                         }
                         this@callbackFlow.trySendBlocking(

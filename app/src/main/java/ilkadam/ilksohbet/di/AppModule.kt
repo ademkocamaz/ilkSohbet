@@ -103,11 +103,9 @@ object AppModule {
     @Provides
     fun provideDiscoverScreenRepository(
         auth: FirebaseAuth,
-        database: FirebaseDatabase,
-        storage: FirebaseStorage,
-        profileScreenRepository: ProfileScreenRepository
+        database: FirebaseDatabase
     ): DiscoverScreenRepository =
-        DiscoverScreenRepositoryImpl(auth, database, storage, profileScreenRepository)
+        DiscoverScreenRepositoryImpl(auth, database)
 
 
     @Provides

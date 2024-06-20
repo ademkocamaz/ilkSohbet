@@ -31,4 +31,7 @@
     <string name="online">Online</string>
     <string name="offline">Offline</string>
     <string name="welcome">Welcome</string>
+    <string name="name_field_is_empty">Name field is empty!</string>
+    <string name="about_field_is_empty">About field is empty!</string>
+    <string name="title_activity_splash">SplashActivity</string>
 </resources>

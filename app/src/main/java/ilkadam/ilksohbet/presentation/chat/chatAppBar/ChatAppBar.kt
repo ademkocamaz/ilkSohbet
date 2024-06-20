@@ -25,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -54,11 +55,9 @@ fun ChatAppBar(
     onUserProfilePictureClick: (() -> Unit)? = null,
     onMoreDropDownBlockUserClick: (() -> Unit)? = null,
 ) {
-    val context = LocalContext.current
+//    val context = LocalContext.current
     var expanded by remember { mutableStateOf(false) }
-    SmallTopAppBar(
-        modifier = Modifier.statusBarsPadding(),
-//        modifier = Modifier.align(Alignment.CenterStart),
+    TopAppBar(
         title = {
             Row {
                 Surface(
@@ -109,11 +108,12 @@ fun ChatAppBar(
                 }
             }
         },
+        modifier = Modifier.statusBarsPadding(),
         navigationIcon = {
             IconButton(onClick = { onBackArrowClick?.invoke() }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Localized description"
+                    contentDescription = null
                 )
             }
         },

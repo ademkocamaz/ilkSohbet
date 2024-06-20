@@ -10,7 +10,8 @@ interface ChatScreenRepository {
         chatRoomUUID: String,
         messageContent: String,
         registerUUID: String,
-        oneSignalUserId: String
+        oneSignalUserId: String,
+        user: User
     ): Flow<Response<Boolean>>
 
     suspend fun loadMessagesFromFirebase(

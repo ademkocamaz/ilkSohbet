@@ -17,8 +17,8 @@ android {
         applicationId = "ilkadam.ilksohbet"
         minSdk = 23
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 13
+        versionName = "1.0.12"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -131,4 +131,7 @@ dependencies {
 
     //Splash
     implementation(libs.androidx.core.splashscreen)
+
+    //Material
+    implementation(libs.androidx.material)
 }

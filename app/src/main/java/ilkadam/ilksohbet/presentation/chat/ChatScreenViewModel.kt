@@ -11,6 +11,7 @@ import ilkadam.ilksohbet.R
 import ilkadam.ilksohbet.domain.model.MessageRegister
 import ilkadam.ilksohbet.domain.model.User
 import ilkadam.ilksohbet.domain.usecase.chatScreen.ChatScreenUseCases
+import ilkadam.ilksohbet.domain.usecase.profileScreen.ProfileScreenUseCases
 import ilkadam.ilksohbet.utils.Response
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChatScreenViewModel @Inject constructor(
     private val chatScreenUseCases: ChatScreenUseCases,
+    private val profileScreenUseCases: ProfileScreenUseCases,
     private val application: Application
 ) : ViewModel() {
     var opponentProfileFromFirebase = mutableStateOf(User())
@@ -35,6 +37,25 @@ class ChatScreenViewModel @Inject constructor(
     var toastMessage = mutableStateOf("")
         private set
 
+    private var requesterUser = mutableStateOf(User())
+
+    init {
+        loadProfileFromFirebase()
+    }
+    private fun loadProfileFromFirebase() {
+        viewModelScope.launch {
+            profileScreenUseCases.loadProfileFromFirebase().collect { response ->
+                when (response) {
+                    is Response.Loading -> {}
+                    is Response.Success -> {
+                        requesterUser.value = response.data
+                    }
+                    is Response.Error -> {}
+                }
+            }
+        }
+    }
+
     fun insertMessageToFirebase(
         chatRoomUUID: String,
         messageContent: String,
@@ -46,15 +67,18 @@ class ChatScreenViewModel @Inject constructor(
                 chatRoomUUID,
                 messageContent,
                 registerUUID,
-                oneSignalUserId
+                oneSignalUserId,
+                requesterUser.value
             ).collect { response ->
                 when (response) {
                     is Response.Loading -> {
                         messageInserted.value = false
                     }
+
                     is Response.Success -> {
                         messageInserted.value = true
                     }
+
                     is Response.Error -> {}
                 }
             }
@@ -80,6 +104,7 @@ class ChatScreenViewModel @Inject constructor(
                             }
                             messagesLoadedFirstTime.value = true
                         }
+
                         is Response.Error -> {}
                     }
                 }
@@ -94,6 +119,7 @@ class ChatScreenViewModel @Inject constructor(
                     is Response.Success -> {
                         opponentProfileFromFirebase.value = response.data
                     }
+
                     is Response.Error -> {}
                 }
             }
@@ -107,9 +133,11 @@ class ChatScreenViewModel @Inject constructor(
                     is Response.Loading -> {
                         toastMessage.value = ""
                     }
+
                     is Response.Success -> {
                         toastMessage.value = application.getString(R.string.friend_blocked)
                     }
+
                     is Response.Error -> {}
                 }
             }

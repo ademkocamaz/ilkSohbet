@@ -35,15 +35,16 @@ class ChatScreenRepositoryImpl @Inject constructor(
         chatRoomUUID: String,
         messageContent: String,
         registerUUID: String,
-        oneSignalUserId: String
+        oneSignalUserId: String,
+        user: User
     ): Flow<Response<Boolean>> = flow {
         try {
             emit(Response.Loading)
             val userUUID = auth.currentUser?.uid
-            val userEmail = auth.currentUser?.email
+            //val userEmail = auth.currentUser?.email
             val messageUUID = UUID.randomUUID().toString()
             OneSignal.postNotification(
-                JSONObject("{'contents': {'en':'$userEmail: $messageContent'}, 'include_player_ids': ['$oneSignalUserId']}"),
+                JSONObject("{'contents': {'en':'${user.userName}: ${messageContent}'}, 'include_player_ids': ['$oneSignalUserId']}"),
                 object : OneSignal.PostNotificationResponseHandler {
                     override fun onSuccess(p0: JSONObject?) {
                         println("onSuccess")

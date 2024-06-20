@@ -53,7 +53,7 @@ class UserListScreenRepositoryImpl @Inject constructor(
                                 val friendListRegister = i.getValue(FriendListRegister::class.java)
 
                                 if (friendListRegister?.status == FriendStatus.ACCEPTED.toString()) {
-                                    friendListRegisterAcceptedList += friendListRegister
+                                    friendListRegisterAcceptedList.add(friendListRegister)
                                 }
                             }
                             launch {
@@ -93,7 +93,7 @@ class UserListScreenRepositoryImpl @Inject constructor(
                                             lastMessage,
                                             userName
                                         )
-                                        friendListUiRowList += friendListRow
+                                        friendListUiRowList.add(friendListRow)
                                     }
                                 }
                                 launch {
@@ -117,7 +117,7 @@ class UserListScreenRepositoryImpl @Inject constructor(
                                                         i.lastMessage,
                                                         i.userName
                                                     )
-                                                    resultList += friendListUiRow
+                                                    resultList.add(friendListUiRow)
                                                 }.addOnFailureListener {
                                                     this@callbackFlow.trySendBlocking(
                                                         Response.Error(

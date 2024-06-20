@@ -2,12 +2,17 @@ package ilkadam.ilksohbet.presentation.userlist
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
@@ -17,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
@@ -33,6 +39,7 @@ import ilkadam.ilksohbet.presentation.userlist.components.AcceptPendingRequestLi
 import ilkadam.ilksohbet.presentation.userlist.components.PendingFriendRequestList
 import ilkadam.ilksohbet.ui.theme.spacing
 
+@OptIn(ExperimentalMaterialApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun UserlistScreen(
@@ -90,27 +97,16 @@ fun UserlistScreen(
     val scrollState = rememberLazyListState()
     var isRefreshing by remember { userListViewModel.isRefreshing }
 
-    SwipeRefresh(
-        modifier = Modifier.fillMaxSize(),
-        state = rememberSwipeRefreshState(isRefreshing),
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = isRefreshing,
         onRefresh = {
-            isRefreshing = true
             userListViewModel.refreshingFriendList()
-        },
-        indicator = { state, trigger ->
-            SwipeRefreshIndicator(
-                modifier = Modifier
-                    .statusBarsPadding()
-                    .padding(top = MaterialTheme.spacing.large),
-                state = state,
-                refreshTriggerDistance = trigger,
-                fade = true,
-                scale = true,
-                backgroundColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.primary
-            )
-        }
+        })
+
+    Box(
+        modifier = Modifier.pullRefresh(pullRefreshState)
     ) {
+
         Scaffold(
             modifier = Modifier
                 .pointerInput(Unit) {
@@ -127,26 +123,38 @@ fun UserlistScreen(
                 //horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 items(acceptedFriendRequestList.value) { item ->
-                    AcceptPendingRequestList(item) {
-                        chatRoomUUID = item.chatRoomUUID
-                        registerUUID = item.registerUUID
-                        opponentUUID = item.userUUID
-                        oneSignalUserId = item.oneSignalUserId
+                    if (item.userName != "") {
+                        AcceptPendingRequestList(item) {
+                            chatRoomUUID = item.chatRoomUUID
+                            registerUUID = item.registerUUID
+                            opponentUUID = item.userUUID
+                            oneSignalUserId = item.oneSignalUserId
+                        }
                     }
+
                 }
                 items(pendingFriendRequestList.value) { item ->
-                    PendingFriendRequestList(item, {
-                        userListViewModel.acceptPendingFriendRequestToFirebase(item.registerUUID)
-                        userListViewModel.refreshingFriendList()
-                    }, {
-                        userListViewModel.cancelPendingFriendRequestToFirebase(item.registerUUID)
-                        userListViewModel.refreshingFriendList()
-                    })
+                    if (item.acceptorUserName != "") {
+                        PendingFriendRequestList(item, {
+                            userListViewModel.acceptPendingFriendRequestToFirebase(item.registerUUID)
+                            userListViewModel.refreshingFriendList()
+                        }, {
+                            userListViewModel.cancelPendingFriendRequestToFirebase(item.registerUUID)
+                            userListViewModel.refreshingFriendList()
+                        })
+                    }
                 }
             }
 
         }
 
-
+        PullRefreshIndicator(
+            refreshing = isRefreshing,
+            state = pullRefreshState,
+            modifier = Modifier.align(
+                Alignment.Center
+            )
+        )
     }
+
 }

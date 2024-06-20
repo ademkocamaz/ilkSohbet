@@ -49,8 +49,8 @@ fun DiscoverScreen(
 ) {
     //rastgele kullanıcı gelecek -> checked
     //resim, ad ve hakkında görüntüleyeceğiz -> checked
-    //arkadaşlık isteği gönderilebilecek
-    //beğenmediğinde başka rastgele kullanıcı gelecek -> Geç tıklandığında
+    //arkadaşlık isteği gönderilebilecek -> checked
+    //beğenmediğinde başka rastgele kullanıcı gelecek -> Geç tıklandığında -> checked
     val toastMessage = discoverScreenViewModel.toastMessage.value
     val context = LocalContext.current
     LaunchedEffect(toastMessage, context) {
@@ -119,6 +119,7 @@ fun DiscoverScreen(
                         }
 
                     }
+                    Spacer(modifier = Modifier.height(10.dp))
                     Card() {
                         Row(
                             modifier = Modifier

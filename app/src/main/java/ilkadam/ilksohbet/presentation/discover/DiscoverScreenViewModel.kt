@@ -28,7 +28,7 @@ class DiscoverScreenViewModel @Inject constructor(
     var toastMessage = mutableStateOf("")
         private set
 
-    var requesterUser = mutableStateOf(User())
+    private var requesterUser = mutableStateOf(User())
 
     init {
         getRandomUserFromFirebase()
@@ -52,7 +52,10 @@ class DiscoverScreenViewModel @Inject constructor(
                         isLoading.value = false
                     }
 
-                    is Response.Error -> {}
+                    is Response.Error -> {
+                        toastMessage.value = response.message
+                        isLoading.value = false
+                    }
                 }
             }
         }

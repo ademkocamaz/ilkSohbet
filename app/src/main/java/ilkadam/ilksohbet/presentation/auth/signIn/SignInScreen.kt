@@ -1,11 +1,16 @@
 package ilkadam.ilksohbet.presentation.auth.signIn
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.material.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
@@ -14,11 +19,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.res.ResourcesCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import ilkadam.ilksohbet.R
@@ -89,11 +98,28 @@ fun SignInScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
+                ResourcesCompat.getDrawable(
+                    LocalContext.current.resources,
+                    R.mipmap.ic_launcher, LocalContext.current.theme
+                )?.let { drawable ->
+                    val bitmap = Bitmap.createBitmap(
+                        drawable.intrinsicWidth, drawable.intrinsicHeight,
+                        Bitmap.Config.ARGB_8888
+                    )
+                    val canvas = Canvas(bitmap)
+                    drawable.setBounds(0, 0, canvas.width, canvas.height)
+                    drawable.draw(canvas)
+
+                    Image(
+                        // painter = painterResource(R.mipmap.ic_launcher),
+                        bitmap = bitmap.asImageBitmap(),
+                        contentDescription = null,
+                        modifier = Modifier.requiredSize(96.dp)
+                    )
+                }
+                Text(text = stringResource(id = R.string.app_name), fontSize = 50.sp)
                 Text(text = stringResource(R.string.welcome), fontSize = 30.sp)
-                /*Image(
-                    painter = painterResource(R.drawable.ic_launcher_foreground),
-                    contentDescription = null
-                )*/
+
                 //TextLightweight()
 
                 /*Box(modifier = Modifier.padding(top = MaterialTheme.spacing.extraLarge)) {

@@ -45,12 +45,12 @@ import ilkadam.ilksohbet.ui.theme.IlkSohbetTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), OSSubscriptionObserver {
-    private val splashViewModel: SplashViewModel by viewModels()
+//    private val splashViewModel: SplashViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        val splashScreen = installSplashScreen().apply {
-            setOnExitAnimationListener { viewProvider ->
+        /*val splashScreen = installSplashScreen().apply {
+            *//*setOnExitAnimationListener { viewProvider ->
                 ObjectAnimator.ofFloat(
                     viewProvider.view,
                     "scaleX",
@@ -71,16 +71,16 @@ class MainActivity : ComponentActivity(), OSSubscriptionObserver {
                     doOnEnd { viewProvider.remove() }
                     start()
                 }
-            }
-            /*setKeepOnScreenCondition {
+            }*//*
+            *//*setKeepOnScreenCondition {
                 splashViewModel.isSplashShow.value
-            }*/
-        }
+            }*//*
+        }*/
         super.onCreate(savedInstanceState)
 
-        splashScreen.setKeepOnScreenCondition {
+        /*splashScreen.setKeepOnScreenCondition {
             splashViewModel.isSplashShow.value
-        }
+        }*/
 
         /*setContent {
             IlkMuhabbetTheme {

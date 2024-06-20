@@ -1,5 +1,6 @@
 package ilkadam.ilksohbet.domain.usecase.chatScreen
 
+import ilkadam.ilksohbet.domain.model.User
 import ilkadam.ilksohbet.domain.repository.ChatScreenRepository
 
 class InsertMessageToFirebase(
@@ -9,11 +10,13 @@ class InsertMessageToFirebase(
         chatRoomUUID: String,
         messageContent: String,
         registerUUID: String,
-        oneSignalUserId: String
+        oneSignalUserId: String,
+        user: User
     ) = chatScreenRepository.insertMessageToFirebase(
         chatRoomUUID,
         messageContent,
         registerUUID,
-        oneSignalUserId
+        oneSignalUserId,
+        user
     )
 }
