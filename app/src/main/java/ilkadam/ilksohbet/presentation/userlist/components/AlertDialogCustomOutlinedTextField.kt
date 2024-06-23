@@ -15,8 +15,9 @@ import androidx.compose.ui.focus.onFocusChanged
 fun AlertDialogCustomOutlinedTextField(
     entry: String,
     hint: String,
-    onChange:(String) -> Unit = {},
-    onFocusChange:(Boolean) -> Unit = {}){
+    onChange: (String) -> Unit = {},
+    onFocusChange: (Boolean) -> Unit = {}
+) {
 
     var isNameChange by remember { mutableStateOf(false) }
     var isFocusChange by remember { mutableStateOf(false) }

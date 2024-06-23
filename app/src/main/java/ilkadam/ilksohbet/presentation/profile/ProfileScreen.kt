@@ -99,9 +99,7 @@ fun ProfileScreen(
         }
     }
 
-    Scaffold(
-        //topBar = { ProfileAppBar() }
-    ) { innerPadding ->
+    Scaffold { innerPadding ->
         Column(
             modifier = Modifier
                 //.fillMaxSize()

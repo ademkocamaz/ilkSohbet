@@ -20,4 +20,6 @@ interface DiscoverScreenRepository {
     ): Flow<Response<Boolean>>
 
     suspend fun openBlockedFriendToFirebase(registerUUID: String): Flow<Response<Boolean>>
+
+    suspend fun getAllUsersFromFirebase(): Flow<Response<List<User>>>
 }

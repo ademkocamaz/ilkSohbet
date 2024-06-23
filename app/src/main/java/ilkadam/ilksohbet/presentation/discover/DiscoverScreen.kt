@@ -36,6 +36,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.SubcomposeAsyncImage
 import coil.compose.rememberAsyncImagePainter
 import ilkadam.ilksohbet.R
 import ilkadam.ilksohbet.core.SnackbarController
@@ -79,7 +80,9 @@ fun DiscoverScreen(
 
     var userDataPictureUrl by remember { mutableStateOf("") }
     userDataPictureUrl = userDataFromFirebase.userProfilePictureUrl
+    userDataPictureUrl.let {
 
+    }
 
     Scaffold { innerPadding ->
         Column(
@@ -99,14 +102,22 @@ fun DiscoverScreen(
                 } else {
                     Box(contentAlignment = Alignment.Center) {
                         if (userDataPictureUrl != "") {
-                            Image(
-                                painter = rememberAsyncImagePainter(userDataPictureUrl),
+                            SubcomposeAsyncImage(
+                                model = userDataPictureUrl,
                                 contentDescription = null,
-                                modifier = Modifier
-                                    .size(400.dp)
-                                //.border(1.dp, Color.Black),
-                                //.clip(CircleShape),
+                                loading = {
+                                    CircularProgressIndicator()
+                                },
+                                modifier = Modifier.size(400.dp)
                             )
+//                            Image(
+//                                painter = rememberAsyncImagePainter(userDataPictureUrl),
+//                                contentDescription = null,
+//                                modifier = Modifier
+//                                    .size(400.dp)
+//                                //.border(1.dp, Color.Black),
+//                                //.clip(CircleShape),
+//                            )
                         } else {
                             Icon(
                                 imageVector = Icons.Filled.Person,
@@ -120,7 +131,7 @@ fun DiscoverScreen(
 
                     }
                     Spacer(modifier = Modifier.height(10.dp))
-                    Card() {
+                    Card {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -132,7 +143,7 @@ fun DiscoverScreen(
                         }
                     }
                     Spacer(modifier = Modifier.height(10.dp))
-                    Card() {
+                    Card {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -149,7 +160,9 @@ fun DiscoverScreen(
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         Button(onClick = {
-                            discoverScreenViewModel.createFriendshipRegisterToFirebase(userDataFromFirebase)
+                            discoverScreenViewModel.createFriendshipRegisterToFirebase(
+                                userDataFromFirebase
+                            )
                         }) {
                             Icon(imageVector = Icons.Filled.PersonAddAlt1, contentDescription = "")
                             Spacer(modifier = Modifier.width(5.dp))

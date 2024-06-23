@@ -30,8 +30,8 @@ import javax.inject.Inject
 class DiscoverScreenRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
     private val database: FirebaseDatabase,
-/*    private val storage: FirebaseStorage,
-    private val profileScreenRepository: ProfileScreenRepository*/
+    /*    private val storage: FirebaseStorage,
+        private val profileScreenRepository: ProfileScreenRepository*/
 ) : DiscoverScreenRepository {
 
     override suspend fun getRandomUserFromFirebase(): Flow<Response<User?>> = callbackFlow {
@@ -47,7 +47,7 @@ class DiscoverScreenRepositoryImpl @Inject constructor(
                         var selectedUser = userList.random().child("profile").getValue<User>()
                         while (
                             selectedUser?.profileUUID.equals(auth.uid.toString()) ||
-                            selectedUser?.userName==""
+                            selectedUser?.userName == ""
                         ) {
                             selectedUser = userList.random().child("profile").getValue<User>()
                         }
@@ -347,6 +347,50 @@ class DiscoverScreenRepositoryImpl @Inject constructor(
             awaitClose {
                 channel.close()
                 cancel()
+            }
+        }
+
+    override suspend fun getAllUsersFromFirebase(): Flow<Response<List<User>>> =
+        callbackFlow {
+            try {
+                this@callbackFlow.trySendBlocking(Response.Loading)
+                val databaseReference = database.getReference("Profiles")
+                val userList = mutableListOf<User>()
+                databaseReference.get()
+                    .addOnSuccessListener { snapshot ->
+                        val job = launch {
+                            val profiles = snapshot.children
+                            for (profile in profiles) {
+                                val user = profile.child("profile").getValue<User>()
+                                if (user != null && user.profileUUID != auth.uid && user.userName != "") {
+                                    userList.add(user)
+                                }
+                            }
+                            this@callbackFlow.trySendBlocking(
+                                Response.Success(
+                                    userList
+                                )
+                            )
+                        }
+
+                    }
+                    .addOnFailureListener {
+                        this@callbackFlow.trySendBlocking(
+                            Response.Error(
+                                it.message ?: Constants.ERROR_MESSAGE
+                            )
+                        )
+                    }
+                awaitClose {
+                    channel.close()
+                    cancel()
+                }
+            } catch (exception: Exception) {
+                this@callbackFlow.trySendBlocking(
+                    Response.Error(
+                        exception.message ?: Constants.ERROR_MESSAGE
+                    )
+                )
             }
         }
 

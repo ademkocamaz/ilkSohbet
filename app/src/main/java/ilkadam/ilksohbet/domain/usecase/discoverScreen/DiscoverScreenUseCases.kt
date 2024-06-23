@@ -6,6 +6,6 @@ data class DiscoverScreenUseCases(
     val discoverCreateChatRoomToFirebase: DiscoverCreateChatRoomToFirebase,
     val discoverCheckFriendListRegisterIsExistedFromFirebase: DiscoverCheckFriendListRegisterIsExistedFromFirebase,
     val discoverCreateFriendListRegisterToFirebase: DiscoverCreateFriendListRegisterToFirebase,
-    val discoverOpenBlockedFriendToFirebase: DiscoverOpenBlockedFriendToFirebase
-) {
-}
+    val discoverOpenBlockedFriendToFirebase: DiscoverOpenBlockedFriendToFirebase,
+    val getAllUsersFromFirebase: GetAllUsersFromFirebase
+)

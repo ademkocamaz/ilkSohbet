@@ -36,6 +36,7 @@ import ilkadam.ilksohbet.domain.usecase.discoverScreen.DiscoverCreateChatRoomToF
 import ilkadam.ilksohbet.domain.usecase.discoverScreen.DiscoverCreateFriendListRegisterToFirebase
 import ilkadam.ilksohbet.domain.usecase.discoverScreen.DiscoverOpenBlockedFriendToFirebase
 import ilkadam.ilksohbet.domain.usecase.discoverScreen.DiscoverScreenUseCases
+import ilkadam.ilksohbet.domain.usecase.discoverScreen.GetAllUsersFromFirebase
 import ilkadam.ilksohbet.domain.usecase.discoverScreen.GetRandomUserFromFirebase
 import ilkadam.ilksohbet.domain.usecase.profileScreen.CreateOrUpdateProfileToFirebase
 import ilkadam.ilksohbet.domain.usecase.profileScreen.LoadProfileFromFirebase
@@ -67,7 +68,8 @@ object AppModule {
     fun provideFirebaseStorageInstance() = FirebaseStorage.getInstance()
 
     @Provides
-    fun provideFirebaseDatabaseInstance() = FirebaseDatabase.getInstance("https://ilksohbet-9e1b6-default-rtdb.europe-west1.firebasedatabase.app")
+    fun provideFirebaseDatabaseInstance() =
+        FirebaseDatabase.getInstance("https://ilksohbet-9e1b6-default-rtdb.europe-west1.firebasedatabase.app")
 
 //    @Provides
 //    fun provideSharedPreferences(application: Application) =
@@ -182,6 +184,9 @@ object AppModule {
                 discoverScreenRepository
             ),
             discoverOpenBlockedFriendToFirebase = DiscoverOpenBlockedFriendToFirebase(
+                discoverScreenRepository
+            ),
+            getAllUsersFromFirebase = GetAllUsersFromFirebase(
                 discoverScreenRepository
             )
         )

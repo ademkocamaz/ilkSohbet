@@ -146,7 +146,7 @@ fun ChatScreenContent(
         topBar = {
             ChatAppBar(
                 //title = "$opponentName $opponentSurname",
-                title = "$opponentName",
+                title = opponentName,
                 description = opponentStatus.lowercase(),
                 pictureUrl = opponentPictureUrl,
                 onUserNameClick = {

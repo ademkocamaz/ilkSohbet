@@ -3,7 +3,9 @@ package ilkadam.ilksohbet.presentation.bottomnavigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.AddReaction
+import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.SupervisedUserCircle
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class BottomNavItem(
@@ -61,6 +63,15 @@ sealed class BottomNavItem(
         "Discover",
         Icons.Filled.AddReaction,
         "discover",
+        ""
+    ) {
+        val fullRoute = screen_route
+    }
+
+    object DiscoverAll : BottomNavItem(
+        "DiscoverAll",
+        Icons.Filled.People,
+        "discoverAll",
         ""
     ) {
         val fullRoute = screen_route

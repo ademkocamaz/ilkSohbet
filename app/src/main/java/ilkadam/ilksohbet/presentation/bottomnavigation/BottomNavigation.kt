@@ -31,7 +31,8 @@ fun BottomNavigation(
     val items = listOf(
         BottomNavItem.Profile,
         BottomNavItem.UserList,
-        BottomNavItem.Discover
+        BottomNavItem.Discover,
+        BottomNavItem.DiscoverAll
     )
     val userListViewModel: UserListViewModel = hiltViewModel()
 

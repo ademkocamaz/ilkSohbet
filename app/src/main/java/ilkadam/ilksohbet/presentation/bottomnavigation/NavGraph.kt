@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import ilkadam.ilksohbet.presentation.auth.signIn.SignInScreen
 import ilkadam.ilksohbet.presentation.chat.ChatScreen
+import ilkadam.ilksohbet.presentation.discover.DiscoverAllScreen
 import ilkadam.ilksohbet.presentation.discover.DiscoverScreen
 import ilkadam.ilksohbet.presentation.profile.ProfileScreen
 import ilkadam.ilksohbet.presentation.userlist.UserlistScreen
@@ -122,7 +123,8 @@ fun NavGraph(
 
                     else -> null
                 }
-            }*/) {
+            }*/
+        ) {
             ProfileScreen(
                 navController = navController,
                 snackbarHostState = snackbarHostState,
@@ -158,7 +160,8 @@ fun NavGraph(
 
                     else -> null
                 }
-            }*/) {
+            }*/
+        ) {
             UserlistScreen(
                 navController = navController,
                 snackbarHostState = snackbarHostState,
@@ -190,7 +193,8 @@ fun NavGraph(
 //                    BottomNavItem.UserList.fullRoute -> slideOutOfContainer(AnimatedContentScope.SlideDirection.Right, animationSpec = tween(700))
                     else -> null
                 }
-            }*/) {
+            }*/
+        ) {
 
             val chatroomUUID = remember {
                 it.arguments?.getString("chatroomUUID")
@@ -244,6 +248,12 @@ fun NavGraph(
 
         ) {
             DiscoverScreen(snackbarHostState = snackbarHostState)
+        }
+
+        composable(
+            route = BottomNavItem.DiscoverAll.fullRoute,
+        ) {
+            DiscoverAllScreen(snackbarHostState = snackbarHostState)
         }
     }
 }

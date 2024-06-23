@@ -14,6 +14,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,6 +28,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import ilkadam.ilksohbet.R
@@ -77,48 +80,104 @@ fun ChooseProfilePicFromGallery(
             }
         }
         if (bitmap != null) {
-            Image(
-                painter = rememberAsyncImagePainter(bitmap),
+            SubcomposeAsyncImage(
+                model = ImageRequest.Builder(context)
+                    .data(bitmap)
+                    //.crossfade(true)
+                    .build(),
                 contentDescription = null,
+                loading = {
+                    CircularProgressIndicator()
+                },
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
-//                    .padding(MaterialTheme.spacing.medium)
+                    .size(size)
                     .clickable {
-                        // Check if the Android version is TIRAMISU or newer
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            // Use the requestPermessionLauncher to request the READ_MEDIA_IMAGES permission
+                            // Use the requestPermissionLauncher to request the READ_MEDIA_IMAGES permission
                             requestPermission.launch(READ_MEDIA_IMAGES)
                         } else {
                             // For older Android versions, use READ_EXTERNAL_STORAGE permission
                             requestPermission.launch(READ_EXTERNAL_STORAGE)
                         }
                     }
-                    .size(size),
-//                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
             )
+//            Image(
+//                painter = rememberAsyncImagePainter(bitmap),
+//                contentDescription = null,
+//                modifier = Modifier
+////                    .padding(MaterialTheme.spacing.medium)
+//                    .clickable {
+//                        // Check if the Android version is TIRAMISU or newer
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//                            // Use the requestPermessionLauncher to request the READ_MEDIA_IMAGES permission
+//                            requestPermission.launch(READ_MEDIA_IMAGES)
+//                        } else {
+//                            // For older Android versions, use READ_EXTERNAL_STORAGE permission
+//                            requestPermission.launch(READ_EXTERNAL_STORAGE)
+//                        }
+//                    }
+//                    .size(size),
+////                    .clip(CircleShape),
+//                contentScale = ContentScale.Crop
+//            )
         } else {
             if (profilePictureUrlForCheck != "") {
-                Image(painter = rememberAsyncImagePainter(profilePictureUrlForCheck),
+                SubcomposeAsyncImage(
+                    model = profilePictureUrlForCheck,
                     contentDescription = null,
+                    loading = {
+                        CircularProgressIndicator()
+                    },
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
-//                        .padding(MaterialTheme.spacing.medium)
-                        .clickable { launcher.launch("image/*") }
-                        .size(size),
-//                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop)
+                        .size(size)
+                        .clickable {
+                            launcher.launch("image/*")
+                        }
+                )
+
+//                Image(painter = rememberAsyncImagePainter(profilePictureUrlForCheck),
+//                    contentDescription = null,
+//                    modifier = Modifier
+////                        .padding(MaterialTheme.spacing.medium)
+//                        .clickable { launcher.launch("image/*") }
+//                        .size(size),
+////                        .clip(CircleShape),
+//                    contentScale = ContentScale.Crop)
+
+
             } else {
-                Image(painter = rememberAsyncImagePainter(
-                    model = ImageRequest.Builder(context).data(R.mipmap.ic_launcher_round)
-                        .build()
-                ),
+
+                SubcomposeAsyncImage(
+                    model = ImageRequest.Builder(context)
+                        .data(R.mipmap.ic_launcher_round)
+                        //.crossfade(true)
+                        .build(),
                     contentDescription = null,
+                    loading = {
+                        CircularProgressIndicator()
+                    },
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
-//                        .padding(MaterialTheme.spacing.medium)
-                        .clickable { launcher.launch("image/*") }
-                        .size(size),
-//                        .clip(CircleShape)
-//                        .border(2.dp, Color.Gray, CircleShape),
-                    contentScale = ContentScale.Crop)
+                        .size(size)
+                        .clickable {
+                            launcher.launch("image/*")
+                        }
+                )
+
+//                Image(painter = rememberAsyncImagePainter(
+//                    model = ImageRequest.Builder(context).data(R.mipmap.ic_launcher_round)
+//                        .build()
+//                ),
+//                    contentDescription = null,
+//                    modifier = Modifier
+////                        .padding(MaterialTheme.spacing.medium)
+//                        .clickable { launcher.launch("image/*") }
+//                        .size(size),
+////                        .clip(CircleShape)
+////                        .border(2.dp, Color.Gray, CircleShape),
+//                    contentScale = ContentScale.Crop)
             }
         }
     }

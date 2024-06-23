@@ -31,7 +31,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import ilkadam.ilksohbet.R
 import ilkadam.ilksohbet.core.SnackbarController
 import ilkadam.ilksohbet.presentation.bottomnavigation.BottomNavItem
@@ -106,7 +105,6 @@ fun UserlistScreen(
     Box(
         modifier = Modifier.pullRefresh(pullRefreshState)
     ) {
-
         Scaffold(
             modifier = Modifier
                 .pointerInput(Unit) {
