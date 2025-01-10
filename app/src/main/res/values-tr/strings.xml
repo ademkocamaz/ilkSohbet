@@ -34,4 +34,5 @@
     <string name="name_field_is_empty">İsim alanını boş bıraktınız!</string>
     <string name="about_field_is_empty">Hakkında alanını boş bıraktınız!</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="search">Ara</string>
 </resources>

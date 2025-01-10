@@ -93,13 +93,19 @@ fun UserItem(
                 modifier = Modifier.padding(MaterialTheme.spacing.small)
             ) {
                 Text(
-                    text = user.userName,
+                    text = if (user.userName.length > 20) user.userName.substring(
+                        0,
+                        20
+                    ) + "..." else user.userName,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
                 Text(
-                    text = user.userBio,
+                    text = if (user.userBio.length > 20) user.userBio.substring(
+                        0,
+                        20
+                    ) + "..." else user.userBio,
                     style = MaterialTheme.typography.titleSmall,
                 )
             }

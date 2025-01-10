@@ -1,9 +1,7 @@
 package ilkadam.ilksohbet
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -24,11 +22,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.core.animation.doOnEnd
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.onesignal.OSSubscriptionObserver
 import com.onesignal.OSSubscriptionStateChanges
 import com.onesignal.OneSignal
@@ -40,15 +39,13 @@ import ilkadam.ilksohbet.presentation.bottomnavigation.BottomNavItem
 import ilkadam.ilksohbet.presentation.bottomnavigation.BottomNavigation
 import ilkadam.ilksohbet.presentation.bottomnavigation.NavGraph
 import ilkadam.ilksohbet.presentation.commoncomponents.ChatSnackBar
-import ilkadam.ilksohbet.presentation.splash.SplashViewModel
 import ilkadam.ilksohbet.ui.theme.IlkSohbetTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), OSSubscriptionObserver {
-//    private val splashViewModel: SplashViewModel by viewModels()
+    //    private val splashViewModel: SplashViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
-
         /*val splashScreen = installSplashScreen().apply {
             *//*setOnExitAnimationListener { viewProvider ->
                 ObjectAnimator.ofFloat(
@@ -111,6 +108,12 @@ class MainActivity : ComponentActivity(), OSSubscriptionObserver {
         // OneSignal Enable Notification
         OneSignal.addSubscriptionObserver(this)
         OneSignal.disablePush(false)
+
+        InterstitialAd.load(this,"ca-app-pub-3940256099942544/1033173712", AdRequest.Builder().build(), object : InterstitialAdLoadCallback() {
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                interstitialAd.show(this@MainActivity)
+            }
+        })
 
         setContent {
             AppKeyboardFocusManager()

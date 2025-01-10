@@ -11,14 +11,14 @@ plugins {
 
 android {
     namespace = "ilkadam.ilksohbet"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "ilkadam.ilksohbet"
         minSdk = 23
-        targetSdk = 34
-        versionCode = 14
-        versionName = "1.0.13"
+        targetSdk = 35
+        versionCode = 15
+        versionName = "1.0.14"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -80,7 +80,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
+    //AdMob
+    implementation(libs.play.services.ads)
     //Foundation
     implementation(libs.androidx.foundation)
 

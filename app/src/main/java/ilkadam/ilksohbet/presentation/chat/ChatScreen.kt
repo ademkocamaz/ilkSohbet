@@ -1,7 +1,6 @@
 package ilkadam.ilksohbet.presentation.chat
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
