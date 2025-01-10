@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
@@ -90,7 +91,7 @@ fun DiscoverAllScreen(
                 .padding(innerPadding),
             state = scrollState
         ) {
-            items(users.value) { user: User ->
+            itemsIndexed(users.value) { index, user: User ->
                 UserItem(
                     user = user,
                     onclick = {
@@ -98,7 +99,10 @@ fun DiscoverAllScreen(
                         openAlertDialog.value = true
                     }
                 )
-                AdMobBanner()
+                if (index % 3 == 0) {
+                    AdMobBanner()
+                }
+
             }
         }
     }
