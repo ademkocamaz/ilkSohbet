@@ -109,7 +109,7 @@ class MainActivity : ComponentActivity(), OSSubscriptionObserver {
         OneSignal.addSubscriptionObserver(this)
         OneSignal.disablePush(false)
 
-        InterstitialAd.load(this,"ca-app-pub-3940256099942544/1033173712", AdRequest.Builder().build(), object : InterstitialAdLoadCallback() {
+        InterstitialAd.load(this,"ca-app-pub-5764318432941968/6747448193", AdRequest.Builder().build(), object : InterstitialAdLoadCallback() {
             override fun onAdLoaded(interstitialAd: InterstitialAd) {
                 interstitialAd.show(this@MainActivity)
             }
