@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -60,7 +61,7 @@ fun BottomNavigation(
         enter = slideInVertically(initialOffsetY = { it }),
         exit = slideOutVertically(targetOffsetY = { it }),
     ) {
-        BottomAppBar(modifier = Modifier.height(50.dp)) {
+        BottomAppBar(modifier = Modifier.height(60.dp)) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = navBackStackEntry?.destination?.route
 //            IconButton(onClick = {
@@ -122,12 +123,14 @@ fun BottomNavigation(
                     iconSelected = {
                         if (currentRoute == item.screen_route) {
                             Icon(
+                                modifier = Modifier.size(50.dp),
                                 imageVector = item.icon,
                                 contentDescription = item.title,
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         } else {
                             Icon(
+                                modifier = Modifier.size(50.dp),
                                 imageVector = item.icon,
                                 contentDescription = item.title,
                             )

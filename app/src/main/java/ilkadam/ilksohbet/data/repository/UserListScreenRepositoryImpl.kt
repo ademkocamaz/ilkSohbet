@@ -422,7 +422,7 @@ class UserListScreenRepositoryImpl @Inject constructor(
                     acceptorUUID,
                     acceptorOneSignalUserId,
                     FriendStatus.PENDING.toString(),
-                    ChatMessage()
+                    ChatMessage(),
                 )
 
             databaseReference

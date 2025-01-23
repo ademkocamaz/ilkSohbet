@@ -13,5 +13,6 @@ data class FriendListRegister(
     var lastMessage: ChatMessage = ChatMessage(),
 
     var acceptorUserName: String = "",
-    var requesterUserName: String = ""
+    var requesterUserName: String = "",
+    var requesterUserPictureUrl: String = "",
 )

@@ -139,7 +139,12 @@ fun DiscoverScreen(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(text = stringResource(id = R.string.full_name) + ":")
-                            Text(text = name)
+                            Text(
+                                text = if (name.length > 20) name.substring(
+                                    0,
+                                    20
+                                ) + "..." else name
+                            )
                         }
                     }
                     Spacer(modifier = Modifier.height(10.dp))
@@ -151,7 +156,12 @@ fun DiscoverScreen(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(text = stringResource(id = R.string.about_you) + ":")
-                            Text(text = bio)
+                            Text(
+                                text = if (bio.length > 40) bio.substring(
+                                    0,
+                                    40
+                                ) + "..." else bio
+                            )
                         }
                     }
                     Spacer(modifier = Modifier.height(10.dp))

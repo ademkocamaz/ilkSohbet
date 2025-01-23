@@ -134,7 +134,6 @@ fun ChatScreenContent(
             )
         }
     }
-    val context = LocalContext.current
 
     Scaffold(
         modifier = Modifier

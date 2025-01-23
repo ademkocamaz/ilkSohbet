@@ -9,6 +9,7 @@ import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import com.onesignal.OneSignal
 import ilkadam.ilksohbet.core.Constants
+import ilkadam.ilksohbet.core.Constants.ERROR_MESSAGE
 import ilkadam.ilksohbet.domain.model.ChatMessage
 import ilkadam.ilksohbet.domain.model.FriendListRegister
 import ilkadam.ilksohbet.domain.model.FriendStatus
@@ -276,26 +277,30 @@ class DiscoverScreenRepositoryImpl @Inject constructor(
                 val requesterUUID = auth.currentUser?.uid
                 val requesterOneSignalUserId = OneSignal.getDeviceState()?.userId
 
-                var requesterEmail = requesterUser.userEmail
+                //var requesterEmail = requesterUser.userEmail
                 var requesterUserName = requesterUser.userName
 
                 val databaseReference = database.getReference("Friend_List")
 
+                val requesterUserPictureUrl = requesterUser.userProfilePictureUrl
+
                 val friendListRegister =
                     FriendListRegister(
-                        chatRoomUUID,
-                        registerUUID,
-                        requesterEmail,
-                        requesterUUID!!,
-                        requesterOneSignalUserId!!,
-                        acceptorUser.userEmail,
-                        acceptorUser.profileUUID,
-                        acceptorUser.oneSignalUserId,
-                        FriendStatus.PENDING.toString(),
-                        ChatMessage(),
-                        acceptorUser.userName,
-                        requesterUserName
-                    )
+
+                        chatRoomUUID = chatRoomUUID,
+                        registerUUID = registerUUID,
+                        //requesterEmail = requesterEmail,
+                        requesterUUID = requesterUUID!!,
+                        requesterOneSignalUserId = requesterOneSignalUserId!!,
+                        //acceptorEmail = acceptorUser.userEmail,
+                        acceptorUUID = acceptorUser.profileUUID,
+                        acceptorOneSignalUserId = acceptorUser.oneSignalUserId,
+                        status = FriendStatus.PENDING.toString(),
+                        lastMessage = ChatMessage(),
+                        acceptorUserName = acceptorUser.userName,
+                        requesterUserName = requesterUserName,
+                        requesterUserPictureUrl = requesterUserPictureUrl
+                        )
 
                 databaseReference
                     .child(registerUUID)
