@@ -21,7 +21,7 @@ lifecycleRuntimeKtx = "2.8.2"
 material = "1.6.8"
 materialIconsExtended = "1.6.8"
 navigationCompose = "2.7.7"
-onesignal = "4.8.9"
+onesignal = "[4.0.0, 4.99.99]"
 playServicesAds = "23.6.0"
 timber = "5.0.1"
 

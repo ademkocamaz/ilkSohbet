@@ -42,7 +42,7 @@ import ilkadam.ilksohbet.presentation.commoncomponents.ChatSnackBar
 import ilkadam.ilksohbet.ui.theme.IlkSohbetTheme
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity(), OSSubscriptionObserver {
+class MainActivity : ComponentActivity() {
     //    private val splashViewModel: SplashViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,17 +98,6 @@ class MainActivity : ComponentActivity(), OSSubscriptionObserver {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        // Logging set to help debug issues, remove before releasing your app.
-        //OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE)
-
-        // OneSignal Initialization
-        OneSignal.initWithContext(this)
-        OneSignal.setAppId(Constants.ONESIGNAL_APP_ID)
-
-        // OneSignal Enable Notification
-        OneSignal.addSubscriptionObserver(this)
-        OneSignal.disablePush(false)
-
         InterstitialAd.load(this,"ca-app-pub-5764318432941968/6747448193", AdRequest.Builder().build(), object : InterstitialAdLoadCallback() {
             override fun onAdLoaded(interstitialAd: InterstitialAd) {
                 interstitialAd.show(this@MainActivity)
@@ -126,19 +115,6 @@ class MainActivity : ComponentActivity(), OSSubscriptionObserver {
                     MainScreenView()
                 }
             }
-        }
-    }
-
-    override fun onOSSubscriptionChanged(p0: OSSubscriptionStateChanges?) {
-        if (p0!!.from.isSubscribed &&
-            !p0.to.isSubscribed
-        ) {
-            println("Notifications Disabled!")
-        }
-        if (!p0.from.isSubscribed &&
-            p0.to.isSubscribed
-        ) {
-            println("Notifications Enabled!")
         }
     }
 
