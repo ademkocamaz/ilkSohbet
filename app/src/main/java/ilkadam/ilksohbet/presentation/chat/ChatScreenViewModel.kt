@@ -79,7 +79,9 @@ class ChatScreenViewModel @Inject constructor(
                         messageInserted.value = true
                     }
 
-                    is Response.Error -> {}
+                    is Response.Error -> {
+
+                    }
                 }
             }
         }

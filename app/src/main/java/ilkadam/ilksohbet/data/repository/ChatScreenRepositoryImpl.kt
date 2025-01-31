@@ -5,13 +5,14 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.onesignal.OneSignal
+import ilkadam.ilksohbet.core.Constants
 import ilkadam.ilksohbet.core.Constants.ERROR_MESSAGE
 import ilkadam.ilksohbet.domain.model.ChatMessage
 import ilkadam.ilksohbet.domain.model.FriendStatus
 import ilkadam.ilksohbet.domain.model.MessageStatus
 import ilkadam.ilksohbet.domain.model.User
 import ilkadam.ilksohbet.domain.repository.ChatScreenRepository
+import ilkadam.ilksohbet.utils.OneSignalApiService
 import ilkadam.ilksohbet.utils.Response
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
@@ -21,7 +22,11 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import org.json.JSONObject
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.net.URL
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -44,10 +49,12 @@ class ChatScreenRepositoryImpl @Inject constructor(
             //val userEmail = auth.currentUser?.email
             val messageUUID = UUID.randomUUID().toString()
 
-            OneSignal.postNotification(
+
+            /*OneSignal.postNotification(
                 JSONObject(
                     "{'contents': {'en':'${user.userName}: ${messageContent}'}, 'include_player_ids': ['$oneSignalUserId']}"),
                 object : OneSignal.PostNotificationResponseHandler {
+
                     override fun onSuccess(p0: JSONObject?) {
                         println("onSuccess")
                     }
@@ -55,7 +62,33 @@ class ChatScreenRepositoryImpl @Inject constructor(
                     override fun onFailure(p0: JSONObject?) {
                         println("onFailure: " + p0.toString())
                     }
-                })
+                })*/
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl("https://api.onesignal.com/")
+                .client(
+                    OkHttpClient.Builder()
+                        .addInterceptor { chain ->
+                            chain.proceed(
+                                chain.request().newBuilder()
+                                    .addHeader(
+                                        "Authorization",
+                                        "Key ${Constants.ONESIGNAL_APP_KEY}"
+                                    )
+                                    .addHeader("accept", "application/json")
+                                    .addHeader("content-type", "application/json")
+                                    .build()
+                            )
+                        }
+                        .build()
+                )
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+            val service = retrofit.create(OneSignalApiService::class.java)
+            val body =
+                "{'app_id':'${Constants.ONESIGNAL_APP_ID}', 'contents': {'en':'${user.userName}: ${messageContent}'}, 'include_player_ids': ['$oneSignalUserId']}"
+
+            service.sendNotification(body)
 
             val message = ChatMessage(
                 userUUID!!,
@@ -77,6 +110,7 @@ class ChatScreenRepositoryImpl @Inject constructor(
             emit(Response.Success(true))
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: ERROR_MESSAGE))
+            println("insertMessageToFirebase: " + e.message)
         }
     }
 

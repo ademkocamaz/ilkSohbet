@@ -28,12 +28,8 @@ import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.onesignal.OSSubscriptionObserver
-import com.onesignal.OSSubscriptionStateChanges
-import com.onesignal.OneSignal
 import dagger.hilt.android.AndroidEntryPoint
 import ilkadam.ilksohbet.core.AppKeyboardFocusManager
-import ilkadam.ilksohbet.core.Constants
 import ilkadam.ilksohbet.domain.model.UserStatus
 import ilkadam.ilksohbet.presentation.bottomnavigation.BottomNavItem
 import ilkadam.ilksohbet.presentation.bottomnavigation.BottomNavigation

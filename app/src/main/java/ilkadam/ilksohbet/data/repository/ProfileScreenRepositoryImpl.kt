@@ -71,7 +71,7 @@ class ProfileScreenRepositoryImpl @Inject constructor(
                 emit(Response.Loading)
                 val userUUID = auth.currentUser?.uid.toString()
                 //val userEmail = auth.currentUser?.email.toString()
-                val oneSignalUserId = OneSignal.getDeviceState()?.userId.toString()
+                val oneSignalUserId = OneSignal.User.onesignalId
 
                 val userDatabaseReference = database.getReference("Profiles").child(userUUID)
                 userDatabaseReference.get()

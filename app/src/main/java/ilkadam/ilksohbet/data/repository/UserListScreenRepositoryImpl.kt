@@ -407,7 +407,7 @@ class UserListScreenRepositoryImpl @Inject constructor(
 
             val requesterEmail = auth.currentUser?.email
             val requesterUUID = auth.currentUser?.uid
-            val requesterOneSignalUserId = OneSignal.getDeviceState()?.userId
+            val requesterOneSignalUserId = OneSignal.User.onesignalId
 
             val databaseReference = database.getReference("Friend_List")
 

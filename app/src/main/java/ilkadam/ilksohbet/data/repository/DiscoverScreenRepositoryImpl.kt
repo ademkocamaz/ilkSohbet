@@ -275,7 +275,7 @@ class DiscoverScreenRepositoryImpl @Inject constructor(
                 val registerUUID = UUID.randomUUID().toString()
 
                 val requesterUUID = auth.currentUser?.uid
-                val requesterOneSignalUserId = OneSignal.getDeviceState()?.userId
+                val requesterOneSignalUserId = OneSignal.User.onesignalId
 
                 //var requesterEmail = requesterUser.userEmail
                 var requesterUserName = requesterUser.userName
